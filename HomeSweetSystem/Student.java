@@ -6,13 +6,17 @@ public class Student {
     private String email;
     private String phonNumber;
     private String password;
+    private String contract;
+    private String nationalId;
 
-    Student(int id, String name, String email, String phonNumber, String password){
+    Student(int id, String name, String email, String phonNumber, String password, String contract, String nationalId){
         this.setId(id);
         this.setName(name);
         this.setEmail(email);
         this.setPhonNumber(phonNumber);
         this.setPassword(password);
+        this.setContract(contract);
+        this.setNationalId(nationalId);
     }
 
     public int getId() {
@@ -34,6 +38,12 @@ public class Student {
     public String getPassword() {
         return password;
     }
+    public String getContract() {
+        return contract;
+    }
+    public String getNationalId() {
+        return nationalId;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -54,11 +64,17 @@ public class Student {
     public void setPassword(String password) {
         this.password = password;
     }
+    public void setContract(String contract) {
+        this.contract = contract;
+    }
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
+    }
 
     @Override
     public String toString() {
         return "Student [id=" + id + ", name=" + name + ", email=" + email + ", phonNumber=" + phonNumber
-                + ", password=" + password + "]";
+                + ", password=" + password + ", contract=" + contract + ", nationalId=" + nationalId + "]";
     }
 
     
