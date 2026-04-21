@@ -1,21 +1,22 @@
 package model;
 
 public class House {
+    private static int idCounter = 1;
     private int id;
     private String address;
     private String landlordName;
     private boolean isAvailable;
-    private double rent;
+    private double rentPrice;
 
-    public House(int id, String address, String landlordName, boolean isAvailable, double rent){
-        this.setId(id);
+    public House(String address, String landlordName, boolean isAvailable, double rentPrice){
+        this.id = idCounter++;
         this.setAddress(address);
         this.setLandlordName(landlordName);
         this.setIsAvailable(isAvailable);
-        this.setRent(rent);
+        this.setRentPrice(rentPrice);
     }
 
-    public int getId() {
+    private int getId() {
         return id;
     }
 
@@ -23,11 +24,11 @@ public class House {
         return address;
     }
 
-    public boolean getIsAvailable() {
+    private boolean getIsAvailable() {
         return isAvailable;
     }
 
-    public void setIsAvailable(boolean isAvailable) {
+    private void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
@@ -35,11 +36,11 @@ public class House {
         return landlordName;
     }
 
-    public double getRent() {
-        return rent;
+    public double getRentPrice() {
+        return rentPrice;
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 
@@ -48,16 +49,20 @@ public class House {
     }
 
     public void setLandlordName(String landlordName) {
-        this.landlordName = landlordName;
+        if (landlordName != null && !landlordName.trim().isEmpty()) {
+            this.landlordName = landlordName;
+        } else {
+            this.landlordName = "No Landlord Assigned";
+        }
     }
 
-    public void setRent(double rent) {
-        this.rent = rent;
+    public void setRentPrice(double rentPrice) {
+        this.rentPrice = rentPrice;
     }
 
     @Override
     public String toString() {
-        return "House [id=" + id + ", address=" + address + ", landlordName=" + landlordName + ", isAvailable=" + isAvailable + ", rent=" + rent + "]";
+        return "House [id=" + id + ", address=" + address + ", landlordName=" + landlordName + ", isAvailable=" + isAvailable + ", rentPrice=" + rentPrice + "]";
     }
 
     

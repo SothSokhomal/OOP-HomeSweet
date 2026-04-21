@@ -1,21 +1,22 @@
 package model;
 
 public class Landlord {
+    private static int idCounter = 1;
     private int id;
     private String name;
     private String phone;
     private String email;
     private String address;
 
-    public Landlord(int id, String name, String phone, String email, String address){
-        this.setId(id);
+    public Landlord(String name, String phone, String email, String address){
+        this.id = idCounter++;
         this.setName(name);
         this.setPhone(phone);
         this.setEmail(email);
         this.setAddress(address);
     }
 
-    public int getId() {
+    private int getId() {
         return id;
     }
 
@@ -35,20 +36,28 @@ public class Landlord {
         return address;
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name;
+        } else {
+            this.name = "Unknown Landlord";
+        }
     }
 
-    public void setPhone(String phone) {
+    private void setPhone(String phone) {
         this.phone = phone;
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email != null && email.contains("@") && email.endsWith(".com")) {
+            this.email = email;
+        } else {
+            this.email = "landlord@error.com";
+        }
     }
 
     public void setAddress(String address) {

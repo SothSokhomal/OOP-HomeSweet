@@ -1,6 +1,7 @@
 package model;
 
 public class Student {
+    private static int idCounter = 1;
     private int id;
     private String name;
     private String email;
@@ -9,8 +10,8 @@ public class Student {
     private String contract;
     private String nationalId;
 
-    public Student(int id, String name, String email, String phonNumber, String password, String contract, String nationalId){
-        this.setId(id);
+    public Student(String name, String email, String phonNumber, String password, String contract, String nationalId){
+        this.id = idCounter++;
         this.setName(name);
         this.setEmail(email);
         this.setPhonNumber(phonNumber);
@@ -19,7 +20,7 @@ public class Student {
         this.setNationalId(nationalId);
     }
 
-    public int getId() {
+    private int getId() {
         return id;
     }
 
@@ -45,16 +46,24 @@ public class Student {
         return nationalId;
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name != null && !name.trim().isEmpty()) {
+            this.name = name;
+        } else {
+            this.name = "Default Student";
+        }
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email != null && email.contains("@") && email.endsWith(".com")) {
+            this.email = email;
+        } else {
+            this.email = "student@error.com";
+        }
     }
 
     public void setPhonNumber(String phonNumber) {
@@ -62,8 +71,13 @@ public class Student {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
+            this.password = password;
+        } else {
+            this.password = "SecurityError123!";
+        }
     }
+
     public void setContract(String contract) {
         this.contract = contract;
     }
@@ -73,7 +87,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [id=" + id + ", name=" + name + ", email=" + email + ", phonNumber=" + phonNumber + ", password=" + password + ", contract=" + contract + ", nationalId=" + nationalId + "]";
+        return "Student [id="  + id + ", name=" + name + ", email=" + email + ", phonNumber=" + phonNumber + ", password=" + password + ", contract=" + contract + ", nationalId=" + nationalId + "]";
     }
 }
 
