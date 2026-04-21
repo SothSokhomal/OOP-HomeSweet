@@ -1,4 +1,4 @@
-package homeSweetSystem;
+package model;
 
 public class Landlord {
     private int id;
@@ -7,7 +7,7 @@ public class Landlord {
     private String email;
     private String address;
 
-    Landlord(int id, String name, String phone, String email, String address){
+    public Landlord(int id, String name, String phone, String email, String address){
         this.setId(id);
         this.setName(name);
         this.setPhone(phone);

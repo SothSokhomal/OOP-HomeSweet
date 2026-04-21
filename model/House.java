@@ -1,4 +1,4 @@
-package homeSweetSystem;
+package model;
 
 public class House {
     private int id;
@@ -7,7 +7,7 @@ public class House {
     private boolean isAvailable;
     private double rent;
 
-    House(int id, String address, String landlordName, boolean isAvailable, double rent){
+    public House(int id, String address, String landlordName, boolean isAvailable, double rent){
         this.setId(id);
         this.setAddress(address);
         this.setLandlordName(landlordName);

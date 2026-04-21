@@ -1,11 +1,12 @@
-package homeSweetSystem;
+package model;
 
 public class Admin {
     private int id;
     private String name;
     private String email;
     private String password;
-    Admin(int id, String name, String email, String password){
+    
+    public Admin(int id, String name, String email, String password){
         this.setId(id);
         this.setName(name);
         this.setEmail(email);

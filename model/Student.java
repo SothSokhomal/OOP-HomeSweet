@@ -1,4 +1,4 @@
-package homeSweetSystem;
+package model;
 
 public class Student {
     private int id;
@@ -9,7 +9,7 @@ public class Student {
     private String contract;
     private String nationalId;
 
-    Student(int id, String name, String email, String phonNumber, String password, String contract, String nationalId){
+    public Student(int id, String name, String email, String phonNumber, String password, String contract, String nationalId){
         this.setId(id);
         this.setName(name);
         this.setEmail(email);
