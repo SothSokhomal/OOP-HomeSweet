@@ -1,4 +1,4 @@
-package HomeSweetSystem;
+package homeSweetSystem;
 
 public class Student {
     private int id;
@@ -75,10 +75,6 @@ public class Student {
     public String toString() {
         return "Student [id=" + id + ", name=" + name + ", email=" + email + ", phonNumber=" + phonNumber + ", password=" + password + ", contract=" + contract + ", nationalId=" + nationalId + "]";
     }
-
-    
-    
-
 }
 
 

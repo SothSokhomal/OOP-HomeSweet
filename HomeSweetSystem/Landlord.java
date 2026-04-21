@@ -1,4 +1,4 @@
-package HomeSweetSystem;
+package homeSweetSystem;
 
 public class Landlord {
     private int id;

@@ -1,4 +1,4 @@
-package HomeSweetSystem;
+package homeSweetSystem;
 
 public class HomeSweetMain {
     public static void main(String[] args) {
