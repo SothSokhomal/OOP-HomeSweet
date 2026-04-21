@@ -57,8 +57,7 @@ public class Landlord {
 
     @Override
     public String toString() {
-        return "LandLord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address="
-                + address + "]";
+        return "LandLord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address=" + address + "]";
     }
     
 }
