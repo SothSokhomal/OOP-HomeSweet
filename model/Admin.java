@@ -23,23 +23,23 @@ public class Admin {
         this.setPassword(password);
     }
 
-    // / --- CRUD OPERATIONS ---
+    //--- CRUD OPERATIONS ---
 
-    // Manage Students
+    //Manage Students
     public void addStudent(Student s) { students.add(s); }
     public void viewStudents() {
         System.out.println("\n--- Student List ---");
         students.forEach(System.out::println);
     }
 
-    // Manage Landlords
+    //Manage Landlords
     public void addLandlord(Landlord l) { landlords.add(l); }
     public void viewLandlords() {
         System.out.println("\n--- Landlord List ---");
         landlords.forEach(System.out::println);
     }
 
-    // Manage Houses
+    //Manage Houses
     public void addHouse(House h) { houses.add(h); }
     public void viewHouses() {
         System.out.println("\n--- House List ---");
@@ -52,14 +52,14 @@ public class Admin {
      */
     public void createRentalAgreement(Student student, House house, String startDate, String endDate) {
         if (house.isAvailable()) {
-            // 1. Create Contract
+            //Create Contract
             Contract newContract = new Contract(student.getName(), startDate, endDate, house.getRentPrice(), "Active");
             contracts.add(newContract);
 
-            // 2. Mark House as unavailable
+            //Mark House as unavailable
             house.setAvailable(false);
 
-            // 3. Generate Payment
+            //Generate Payment
             Payment initialPayment = new Payment(newContract.getContractId(), house.getRentPrice(), "Paid");
             payments.add(initialPayment);
 
