@@ -17,7 +17,7 @@ public class Contract {
         this.setContractValue(contractValue);
         this.setStatus(status);
     }
-    private int getContractId() {
+    public int getContractId() {
         return id;
     }
 

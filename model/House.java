@@ -8,11 +8,11 @@ public class House {
     private boolean isAvailable;
     private double rentPrice;
 
-    public House(String address, String landlordName, boolean isAvailable, double rentPrice){
+    public House(String address, Landlord landlord, boolean isAvailable, double rentPrice){
         this.id = idCounter++;
         this.setAddress(address);
-        this.setLandlordName(landlordName);
-        this.setIsAvailable(isAvailable);
+        this.setLandlordName(landlord != null ? landlord.getName() : "No Landlord");
+        this.setAvailable(isAvailable);
         this.setRentPrice(rentPrice);
     }
 
@@ -27,10 +27,14 @@ public class House {
     private boolean getIsAvailable() {
         return isAvailable;
     }
-
-    private void setIsAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
+    public boolean isAvailable() { 
+        return isAvailable; 
     }
+
+    public void setAvailable(boolean isAvailable) { 
+        this.isAvailable = isAvailable; 
+    }
+
 
     public String getLandlordName() {
         return landlordName;
