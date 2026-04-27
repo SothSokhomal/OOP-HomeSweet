@@ -49,7 +49,11 @@ public class House {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        if (address != null && !address.trim().isEmpty()) {
+            this.address = address;
+        } else {
+            this.address = "Unknown Address";
+        }
     }
 
     public void setLandlordName(String landlordName) {
@@ -61,7 +65,11 @@ public class House {
     }
 
     public void setRentPrice(double rentPrice) {
-        this.rentPrice = rentPrice;
+        if (rentPrice > 0) {
+            this.rentPrice = rentPrice;
+        } else {
+            System.out.println("Invalid rent price");
+        }
     }
 
     @Override

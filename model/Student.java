@@ -67,7 +67,11 @@ public class Student {
     }
 
     public void setPhonNumber(String phonNumber) {
-        this.phonNumber = phonNumber;
+        if (phonNumber != null && phonNumber.matches("\\d{10}")) {
+            this.phonNumber = phonNumber;
+        } else {
+            System.out.println("Please enter a valid 10-digit phone number");
+        }
     }
 
     public void setPassword(String password) {
@@ -79,10 +83,18 @@ public class Student {
     }
 
     public void setContract(String contract) {
-        this.contract = contract;
+        if (contract != null && !contract.isEmpty()) {
+            this.contract = contract;
+        } else {
+            this.contract = "No Contract Assigned";
+        }
     }
     public void setNationalId(String nationalId) {
-        this.nationalId = nationalId;
+        if (nationalId != null && nationalId.matches("\\d{14}")) {
+            this.nationalId = nationalId;
+        } else {
+            System.out.println("Please enter a valid 14-digit national ID");
+        }
     }
 
     @Override

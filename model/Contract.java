@@ -55,19 +55,35 @@ public class Contract {
     }
 
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
+        if (startDate != null && !startDate.isEmpty()) {
+            this.startDate = startDate;
+        } else {
+            System.out.println("Invalid start date");
+        }
     }
 
     public void setEndDate(String endDate) {
-        this.endDate = endDate;
+        if (endDate != null && !endDate.isEmpty()) {
+            this.endDate = endDate;
+        } else {
+            System.out.println("Invalid end date");
+        }
     }
 
     public void setContractValue(double contractValue) {
-        this.contractValue = contractValue;
+        if (contractValue > 0) {
+            this.contractValue = contractValue;
+        } else {
+            System.out.println("Invalid contract value");
+        }
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        if (status != null && !status.trim().isEmpty()) {
+            this.status = status;
+        } else {
+            this.status = "Unknown Status";
+        }
     }
 
 
