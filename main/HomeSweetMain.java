@@ -12,26 +12,22 @@ public class HomeSweetMain {
         
         //Create Landlords
         Landlord l1 = new Landlord("Elizabeth", "1234567890", "abc123@gmail.com", "Phnom Penh");
-        Landlord l2 = new Landlord("Rose", "1234567890", "rose@gmail.com", "Phnom Penh");
 
         //Create Students (Passing 'null' for the Contract object initially)
         Student s1 = new Student("Jane Smith", "janesmith@gmail.com", "9876543210", "studentpassword@", null, "12345678901234");
-        Student s2 = new Student("Michael Brown", "michael@gmail.com", "9876543210", "studentpassword@", null, "12345678901244");
-    
+
         //Create Houses
         House h1 = new House("123 Main St", l1, true, 500.00);
-        House h2 = new House("456 Oak Ave", l2, true, 600.00);
+        House h2 = new House("456 Oak Ave", l1, true, 600.00);
 
         // Store houses in Landlord lists
         l1.addHouse(h1);
-        l2.addHouse(h2);
+        l1.addHouse(h2);
 
         //Register data into Admin's system
         a1.addLandlord(l1);
-        a1.addLandlord(l2);
       
         a1.addStudent(s1);
-        a1.addStudent(s2);
       
         a1.addHouse(h1);
         a1.addHouse(h2);
@@ -43,8 +39,10 @@ public class HomeSweetMain {
 
         System.out.println("\n--- PROCESSING RENTAL ---");
         a1.createRentalAgreement(s1, h1, "2023-10-01", "2024-10-01");
-        a1.createRentalAgreement(s2, h2, "2023-11-01", "2024-11-01");
 
+        //mark the house as unavailable here 
+        h1.setAvailable(false);
+        
         System.out.println("\n--- UPDATED STATE ---");
         a1.viewHouses(); 
         a1.viewAllPayments(); 
