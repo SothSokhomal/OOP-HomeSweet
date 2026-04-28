@@ -7,10 +7,10 @@ public class Student {
     private String email;
     private String phonNumber;
     private String password;
-    private String contract;
+    private Contract contract;
     private String nationalId;     
 
-    public Student(String name, String email, String phonNumber, String password, String contract, String nationalId){
+    public Student(String name, String email, String phonNumber, String password, Contract contract, String nationalId){
         this.id = idCounter++;
         this.setName(name);
         this.setEmail(email);
@@ -39,7 +39,7 @@ public class Student {
     public String getPassword() {
         return password;
     }
-    public String getContract() {
+    public Contract getContract() {
         return contract;
     }
     public String getNationalId() {
@@ -82,11 +82,11 @@ public class Student {
         }
     }
 
-    public void setContract(String contract) {
-        if (contract != null && !contract.isEmpty()) {
+    public void setContract(Contract contract) {
+        if (contract != null) {
             this.contract = contract;
         } else {
-            this.contract = "No Contract Assigned";
+            this.contract = null;
         }
     }
     public void setNationalId(String nationalId) {

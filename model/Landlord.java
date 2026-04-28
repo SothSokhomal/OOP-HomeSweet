@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 public class Landlord {
     private static int idCounter = 1;
     private int id;
@@ -8,6 +10,8 @@ public class Landlord {
     private String email;
     private String address;
 
+
+    private ArrayList<House> houses = new ArrayList<>(); 
     public Landlord(String name, String phone, String email, String address){
         this.id = idCounter++;
         this.setName(name);
@@ -40,6 +44,9 @@ public class Landlord {
         this.id = id;
     }
 
+    public void addHouse(House h) {
+        this.houses.add(h);
+    }
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
             this.name = name;
