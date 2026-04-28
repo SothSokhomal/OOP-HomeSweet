@@ -3,15 +3,18 @@ package model;
 public class Contract {
     private static int idCounter = 1;
     private int id;
-    private String clientName;
+    private Student student;
+    private House house;
     private String startDate;
     private String endDate;
     private double contractValue;
     private String status;
+
     
-    public Contract(String clientName, String startDate, String endDate, double contractValue, String status){
+    public Contract(Student student, House house, String startDate, String endDate, double contractValue, String status){
         this.id = idCounter++;
-        this.setClientName(clientName);
+        this.setStudent(student);
+        this.setHouse(house);
         this.setStartDate(startDate);
         this.setEndDate(endDate);
         this.setContractValue(contractValue);
@@ -21,8 +24,12 @@ public class Contract {
         return id;
     }
 
-    public String getClientName() {
-        return clientName;
+    public Student getStudent() {
+        return student;
+    }
+
+    public House getHouse() {
+        return house;
     }
 
 
@@ -46,11 +53,20 @@ public class Contract {
         this.id = id;
     }
 
-    public void setClientName(String clientName) {
-        if (clientName != null && !clientName.trim().isEmpty()) {
-            this.clientName = clientName;
+    public void setStudent(Student student) {
+        if (student != null) {
+            this.student = student;
         } else {
-            this.clientName = "Unknown Client";
+            this.student = new Student("Unknown Student", "unknown@email.com", "0000000000", "defaultPass123", null, "00000000000000");
+        }
+    }
+
+    public void setHouse(House house) {
+        if (house != null) {
+            this.house = house;
+        } else {
+            this.house = new House();
+
         }
     }
 
@@ -89,7 +105,7 @@ public class Contract {
 
     @Override
     public String toString() {
-        return "Contract [contractId=" + id + ", clientName=" + clientName + ", startDate=" + startDate + ", endDate=" + endDate + ", contractValue=" + contractValue + ", status=" + status + "]";
+        return "Contract [contractId=" + id + ", student=" + student + ", house=" + house + ", startDate=" + startDate + ", endDate=" + endDate + ", contractValue=" + contractValue + ", status=" + status + "]";
     }
 
     

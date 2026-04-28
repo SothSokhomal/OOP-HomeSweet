@@ -5,22 +5,20 @@ public class Student {
     private int id;
     private String name;
     private String email;
-    private String phonNumber;
+    private String PhoneNumber; 
     private String password;
-    private String contract;
     private String nationalId;     
 
-    public Student(String name, String email, String phonNumber, String password, String contract, String nationalId){
+    public Student(String name, String email, String phoneNumber, String password, String nationalId){
         this.id = idCounter++;
         this.setName(name);
         this.setEmail(email);
-        this.setPhonNumber(phonNumber);
+        this.setPhoneNumber(phoneNumber);
         this.setPassword(password);
-        this.setContract(contract);
         this.setNationalId(nationalId);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
@@ -32,16 +30,14 @@ public class Student {
         return email;
     }
 
-    public String getPhonNumber() {
-        return phonNumber;
+    public String getPhoneNumber() {
+        return PhoneNumber;
     }
 
     public String getPassword() {
         return password;
     }
-    public String getContract() {
-        return contract;
-    }
+
     public String getNationalId() {
         return nationalId;
     }
@@ -66,10 +62,12 @@ public class Student {
         }
     }
 
-    public void setPhonNumber(String phonNumber) {
-        if (phonNumber != null && phonNumber.matches("\\d{10}")) {
-            this.phonNumber = phonNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber != null && phoneNumber.matches("\\d{10}")) {
+            this.PhoneNumber = phoneNumber;
         } else {
+
+            this.PhoneNumber = "0000000000"; 
             System.out.println("Please enter a valid 10-digit phone number");
         }
     }
@@ -82,26 +80,18 @@ public class Student {
         }
     }
 
-    public void setContract(String contract) {
-        if (contract != null && !contract.isEmpty()) {
-            this.contract = contract;
-        } else {
-            this.contract = "No Contract Assigned";
-        }
-    }
     public void setNationalId(String nationalId) {
         if (nationalId != null && nationalId.matches("\\d{14}")) {
             this.nationalId = nationalId;
         } else {
+
+            this.nationalId = "00000000000000";
             System.out.println("Please enter a valid 14-digit national ID");
         }
     }
 
     @Override
     public String toString() {
-        return "Student [id="  + id + ", name=" + name + ", email=" + email + ", phonNumber=" + phonNumber + ", password=" + password + ", contract=" + contract + ", nationalId=" + nationalId + "]";
+        return "Student [id="  + id + ", name=" + name + ", email=" + email + ", PhoneNumber=" + PhoneNumber + ", nationalId=" + nationalId + "]";
     }
 }
-
-
-
