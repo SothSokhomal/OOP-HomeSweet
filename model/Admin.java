@@ -34,6 +34,11 @@ public class Admin {
         for(Payment p : payments) System.out.println(p);
     }
 
+    public void viewContracts() {
+        System.out.println("\n--- Contract List ---");
+        for(Contract c : contracts) System.out.println(c);
+    }
+
     public void createRentalAgreement(Student student, House house, String startDate, String endDate) {
         if (house.isAvailable()) {
             Contract c = new Contract(student.getName(), startDate, endDate, house.getRentPrice(), "Active", student, house);
