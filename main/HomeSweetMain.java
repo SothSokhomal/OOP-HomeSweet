@@ -26,9 +26,7 @@ public class HomeSweetMain {
 
         //Register data into Admin's system
         a1.addLandlord(l1);
-      
         a1.addStudent(s1);
-      
         a1.addHouse(h1);
         a1.addHouse(h2);
 
@@ -40,11 +38,9 @@ public class HomeSweetMain {
         System.out.println("\n--- PROCESSING RENTAL ---");
         a1.createRentalAgreement(s1, h1, "2023-10-01", "2024-10-01");
 
-        //mark the house as unavailable here 
-        h1.setAvailable(false);
-        
         System.out.println("\n--- UPDATED STATE ---");
         a1.viewHouses(); 
+        a1.viewContracts();
         a1.viewAllPayments(); 
     }
 }
