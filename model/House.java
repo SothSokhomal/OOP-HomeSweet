@@ -4,19 +4,21 @@ public class House {
     private static int idCounter = 1;
     private int id;
     private String address;
-    private String landlordName;
     private boolean isAvailable;
+    private Landlord landlordName;
+    private String city;
     private double rentPrice;
 
-    public House(String address, Landlord landlord, boolean isAvailable, double rentPrice){
+    public House(String address, Landlord landlordName, boolean isAvailable, String city, double rentPrice){
         this.id = idCounter++;
         this.setAddress(address);
-        this.setLandlordName(landlord != null ? landlord.getName() : "No Landlord");
+        this.setLandlord(landlordName);
+        this.setCity(city);
         this.setAvailable(isAvailable);
         this.setRentPrice(rentPrice);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
@@ -24,20 +26,16 @@ public class House {
         return address;
     }
 
-    private boolean getIsAvailable() {
-        return isAvailable;
-    }
     public boolean isAvailable() { 
         return isAvailable; 
     }
 
-    public void setAvailable(boolean isAvailable) { 
-        this.isAvailable = isAvailable; 
+    public Landlord getLandlordName() {
+        return landlordName;
     }
 
-
-    public String getLandlordName() {
-        return landlordName;
+    public String getCity() {
+        return city;
     }
 
     public double getRentPrice() {
@@ -56,25 +54,39 @@ public class House {
         }
     }
 
-    public void setLandlordName(String landlordName) {
-        if (landlordName != null && !landlordName.trim().isEmpty()) {
-            this.landlordName = landlordName;
-        } else {
-            this.landlordName = "No Landlord Assigned";
-        }
+    public void setAvailable(boolean isAvailable) {
+        this.isAvailable = isAvailable;
+    }
+
+    public void setLandlord(Landlord landlordName) {
+        this.landlordName = landlordName;
     }
 
     public void setRentPrice(double rentPrice) {
         if (rentPrice > 0) {
             this.rentPrice = rentPrice;
         } else {
-            System.out.println("Invalid rent price");
+            throw new IllegalArgumentException("Rent price must be positive: " + rentPrice);
         }
+    }
+
+    public void setCity(String city2) {
+        if (city2 != null && !city2.trim().isEmpty()) {
+            this.city = city2;
+        } else {
+            this.city = "Unknown City";
+        }
+    }
+
+    public void setOwner(Landlord landlord) {
+        this.landlordName = landlord;
     }
 
     @Override
     public String toString() {
-        return "House [id=" + id + ", address=" + address + ", landlordName=" + landlordName + ", isAvailable=" + isAvailable + ", rentPrice=" + rentPrice + "]";
+        return "House [id=" + id + ", address=" + address + ", city=" + city + 
+            ", landlord=" + landlordName.getName() + ", isAvailable=" + isAvailable + 
+            ", rentPrice=" + rentPrice + "]";
     }
 
     
