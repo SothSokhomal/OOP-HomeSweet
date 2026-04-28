@@ -46,10 +46,7 @@ public class Admin {
         houses.forEach(System.out::println);
     }
 
-    /**
-     * Business Logic: Process a Rental
-     * Ties Student, House, Contract, and Payment together
-     */
+    // Ties the student, housee, contract, and payment together
     public void createRentalAgreement(Student student, House house, String startDate, String endDate) {
         if (house.isAvailable()) {
             //Create Contract
@@ -89,6 +86,7 @@ public class Admin {
     private void setId(int id) {
         this.id = id;
     }
+    
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
             this.name = name;
