@@ -40,7 +40,7 @@ public class Admin {
             contracts.add(c);
             student.setContract(c); // Link the contract to the student
             house.setAvailable(false);
-            payments.add(new Payment(c, house.getRentPrice()));
+            payments.add(new Payment(c, house.getRentPrice(), "Pending"));
             System.out.println("Rental Processed for: " + student.getName());
         }
     }
