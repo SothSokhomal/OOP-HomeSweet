@@ -57,7 +57,7 @@ public class Admin {
             house.setAvailable(false);
 
             //Generate Payment
-            Payment initialPayment = new Payment(newContract.getContractId(), house.getRentPrice(), "Paid");
+            Payment initialPayment = new Payment(newContract, house.getRentPrice(), "Paid");
             payments.add(initialPayment);
 
             System.out.println("Success: Rental processed for " + student.getName());
