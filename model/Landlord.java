@@ -11,35 +11,16 @@ public class Landlord {
     private String phone;
     private String email;
     private String address;
-<<<<<<< HEAD
-    private String password;
-    private String nationalID;
-    private boolean isVerified;
-    private boolean isActive;
-=======
     private ArrayList<House> houses = new ArrayList<>();
 
->>>>>>> 9c6d07b34707d1d9a1bebf8b08307950f2e9e535
 
-    private ArrayList<House> houses = new ArrayList<>();
 
     public Landlord(String name, String phone, String email, String address, String password, String nationalID, boolean isVerified, boolean isActive){
         this.id = idCounter++;
-<<<<<<< HEAD
-        this.setName(name);
-        this.setPhone(phone);
-        this.setEmail(email);
-        this.setAddress(address);
-        this.setPassword(password);
-        this.setNationalID(nationalID);
-        this.setVerified(isVerified);
-        this.setActive(isActive);
-=======
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
->>>>>>> 9c6d07b34707d1d9a1bebf8b08307950f2e9e535
     }
 
     public int getId() {
@@ -161,15 +142,6 @@ public class Landlord {
 
     @Override
     public String toString() {
-<<<<<<< HEAD
-        return "Landlord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address="
-                + address + ", password=" + password + ", nationalID=" + nationalID + ", isVerified=" + isVerified
-                + ", isActive=" + isActive + "]";
-    }
-    
-    
-=======
         return "Landlord [id=" + id + ", name=" + name + "]";
     }
->>>>>>> 9c6d07b34707d1d9a1bebf8b08307950f2e9e535
 }
