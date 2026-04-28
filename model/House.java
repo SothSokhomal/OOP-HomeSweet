@@ -4,6 +4,10 @@ public class House {
     private static int idCounter = 1;
     private int id;
     private String address;
+<<<<<<< HEAD
+=======
+    private Landlord landlord;
+>>>>>>> 9c6d07b34707d1d9a1bebf8b08307950f2e9e535
     private boolean isAvailable;
     private Landlord landlordName;
     private String city;
@@ -11,6 +15,7 @@ public class House {
 
     public House(String address, Landlord landlordName, boolean isAvailable, String city, double rentPrice){
         this.id = idCounter++;
+<<<<<<< HEAD
         this.setAddress(address);
         this.setLandlord(landlordName);
         this.setCity(city);
@@ -69,6 +74,19 @@ public class House {
             throw new IllegalArgumentException("Rent price must be positive: " + rentPrice);
         }
     }
+=======
+        this.address = address;
+        this.landlord = landlord;
+        this.isAvailable = isAvailable;
+        this.rentPrice = rentPrice;
+    }
+
+    public int getId() { return id; }
+    public String getAddress() { return address; }
+    public double getRentPrice() { return rentPrice; }
+    public boolean isAvailable() { return isAvailable; }
+    public void setAvailable(boolean available) { isAvailable = available; }
+>>>>>>> 9c6d07b34707d1d9a1bebf8b08307950f2e9e535
 
     public void setCity(String city2) {
         if (city2 != null && !city2.trim().isEmpty()) {
@@ -84,10 +102,15 @@ public class House {
 
     @Override
     public String toString() {
+<<<<<<< HEAD
         return "House [id=" + id + ", address=" + address + ", city=" + city + 
             ", landlord=" + landlordName.getName() + ", isAvailable=" + isAvailable + 
             ", rentPrice=" + rentPrice + "]";
     }
 
     
+=======
+        return "House [id=" + id + ", address=" + address + ", available=" + isAvailable + "]";
+    }
+>>>>>>> 9c6d07b34707d1d9a1bebf8b08307950f2e9e535
 }

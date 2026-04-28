@@ -3,23 +3,23 @@ package model;
 public class Payment {
     private static int idCounter = 1;
     private int id;
-    private int contractId;
+    private Contract contract;
     private double amount;
     private String paymentStatus;
 
-    public Payment(int contractId, double amount, String paymentStatus){
+    public Payment(Contract contract, double amount, String paymentStatus){
         this.id = idCounter++;
-        this.setContractId(contractId);
+        this.setContract(contract);
         this.setAmount(amount);
         this.setPaymentStatus(paymentStatus);
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    public int getContractId() {
-        return contractId;
+    public Contract getContract() {
+        return contract;
     }
 
     public double getAmount() {
@@ -30,16 +30,13 @@ public class Payment {
         return paymentStatus;
     }
 
-    private void setId(int id) {
-        this.id = id;
-    }
+    //never allow external modification of ID, so no setter for ID
+    // private void setId(int id) {
+    //     this.id = id;
+    // }
 
-    public void setContractId(int contractId) {
-        if(contractId > 0){
-            this.contractId = contractId;
-        } else {
-            this.contractId = 0;
-        }
+    private void setContract(Contract contract) {
+        this.contract = contract;
     }
 
     public void setAmount(double amount) {
@@ -62,7 +59,7 @@ public class Payment {
     @Override
     public String toString() {
         return "Payment [id=" + id + 
-               ", contractId=" + contractId + 
+               ", contract=" + (contract != null ? contract.getId() : "0") + 
                ", amount=$" + amount + 
                ", paymentStatus=" + paymentStatus + "]";
     }
