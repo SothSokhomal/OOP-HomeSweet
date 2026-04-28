@@ -8,7 +8,6 @@ import model.Student;
 public class HomeSweetMain {
     public static void main(String[] args) {
 
-        //Create Admin
         Admin a1 = new Admin("John Doe", "johndoe@gmail.com", "password123!"); 
         
         //Create Landlords
@@ -30,8 +29,10 @@ public class HomeSweetMain {
         //Register data into Admin's system
         a1.addLandlord(l1);
         a1.addLandlord(l2);
+      
         a1.addStudent(s1);
         a1.addStudent(s2);
+      
         a1.addHouse(h1);
         a1.addHouse(h2);
 
