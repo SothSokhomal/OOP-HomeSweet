@@ -105,7 +105,12 @@ public class Admin {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null && password.length() >= 8) {
+            this.password = password;
+        } else {
+            System.out.println("Error: Password must be at least 8 characters long for " + name);
+            this.password = "defaultPass123";
+        }
     }
     @Override
     public String toString() {

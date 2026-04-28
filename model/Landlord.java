@@ -49,7 +49,11 @@ public class Landlord {
     }
 
     private void setPhone(String phone) {
-        this.phone = phone;
+        if (phone != null && phone.matches("\\d{10}")) {
+            this.phone = phone;
+        } else {
+            System.out.println("Please enter a valid 10-digit phone number");
+        }
     }
 
     public void setEmail(String email) {
@@ -61,7 +65,11 @@ public class Landlord {
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        if (address != null && !address.trim().isEmpty()) {
+            this.address = address;
+        } else {
+            this.address = "Unknown Address";
+        }
     }
 
     @Override
