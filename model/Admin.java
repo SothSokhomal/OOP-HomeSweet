@@ -45,19 +45,8 @@ public class Admin {
             contracts.add(c);
             student.setContract(c); // Link the contract to the student
             house.setAvailable(false);
-<<<<<<< HEAD
-
-            //Generate Payment
-            Payment initialPayment = new Payment(newContract, house.getRentPrice(), "Paid");
-            payments.add(initialPayment);
-
-            System.out.println("Success: Rental processed for " + student.getName());
-        } else {
-            System.out.println("Error: House at " + house.getAddress() + " is already occupied!");
-=======
             payments.add(new Payment(c, house.getRentPrice(), "Pending"));
             System.out.println("Rental Processed for: " + student.getName());
->>>>>>> develop
         }
     }
 }
