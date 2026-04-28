@@ -12,12 +12,12 @@ public class Student {
 
     public Student(String name, String email, String phonNumber, String password, Contract contract, String nationalId){
         this.id = idCounter++;
-        this.setName(name);
-        this.setEmail(email);
-        this.setPhonNumber(phonNumber);
-        this.setPassword(password);
-        this.setContract(contract);
-        this.setNationalId(nationalId);
+        this.name = name;
+        this.email = email;
+        this.phonNumber = phonNumber;
+        this.password = password;
+        this.contract = contract;
+        this.nationalId = nationalId;
     }
 
     private int getId() {
@@ -99,9 +99,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [id="  + id + ", name=" + name + ", email=" + email + ", phonNumber=" + phonNumber + ", password=" + password + ", contract=" + contract + ", nationalId=" + nationalId + "]";
+        return "Student [id=" + id + ", name=" + name + ", hasContract=" + (contract != null) + "]";
     }
 }
-
-
-

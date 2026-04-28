@@ -1,6 +1,6 @@
 package model;
-
 import java.util.ArrayList;
+
 
 public class Landlord {
     private static int idCounter = 1;
@@ -9,15 +9,15 @@ public class Landlord {
     private String phone;
     private String email;
     private String address;
+    private ArrayList<House> houses = new ArrayList<>();
 
 
-    private ArrayList<House> houses = new ArrayList<>(); 
     public Landlord(String name, String phone, String email, String address){
         this.id = idCounter++;
-        this.setName(name);
-        this.setPhone(phone);
-        this.setEmail(email);
-        this.setAddress(address);
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.address = address;
     }
 
     private int getId() {
@@ -81,7 +81,6 @@ public class Landlord {
 
     @Override
     public String toString() {
-        return "LandLord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address=" + address + "]";
+        return "Landlord [id=" + id + ", name=" + name + "]";
     }
-    
 }
