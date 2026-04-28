@@ -30,17 +30,26 @@ public class Payment {
         return paymentStatus;
     }
 
+<<<<<<< HEAD
     //the id is auto generated, so we don't want to allow setting it from outside the class
+=======
+    //never allow external modification of ID, so no setter for ID
+>>>>>>> develop
     // private void setId(int id) {
     //     this.id = id;
     // }
 
+<<<<<<< HEAD
     public void setContract(Contract contract) {
         if(contract != null){
             this.contract = contract;
         } else {
             this.contract = null;
         }
+=======
+    private void setContract(Contract contract) {
+        this.contract = contract;
+>>>>>>> develop
     }
 
     public void setAmount(double amount) {
@@ -63,7 +72,11 @@ public class Payment {
     @Override
     public String toString() {
         return "Payment [id=" + id + 
+<<<<<<< HEAD
                ", contract=" + contract + 
+=======
+               ", contract=" + (contract != null ? contract.getId() : "0") + 
+>>>>>>> develop
                ", amount=$" + amount + 
                ", paymentStatus=" + paymentStatus + "]";
     }
