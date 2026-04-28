@@ -8,7 +8,7 @@ public class Student {
     private String phonNumber;
     private String password;
     private String contract;
-    private String nationalId;
+    private String nationalId;     
 
     public Student(String name, String email, String phonNumber, String password, String contract, String nationalId){
         this.id = idCounter++;
