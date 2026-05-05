@@ -10,7 +10,7 @@ public class Contract {
     private double contractValue;
     private OrderStatus status;
 
-    public Contract(String clientName, String startDate, String endDate, String status, Student student, House house){
+    public Contract(String clientName, String startDate, String endDate, double d, OrderStatus status, Student student, House house){
         this.id = idCounter++;
         this.student = student;
         this.house = house;
@@ -19,32 +19,37 @@ public class Contract {
         this.status = status;
     }
 
+    public Contract(Student student2, House house2, String startDate2, String endDate2, double rentPrice,
+            OrderStatus pending) {
+        //TODO Auto-generated constructor stub
+    }
+
     public static int getIdCounter() {
         return idCounter;
     }
 
 
-    public Student getStudent() {
+    public Student getStudent1() {
         return student;
     }
 
 
-    public House getHouse() {
+    public House getHouse1() {
         return house;
     }
 
-    public String getStartDate() {
+    public String getStartDate1() {
         return startDate;
     }
 
 
-    public String getEndDate() {
+    public String getEndDate1() {
         return endDate;
     }
 
 
 
-    public String getStatus() {
+    public OrderStatus getStatus1() {
         return status;
     }
 
@@ -73,7 +78,7 @@ public class Contract {
         this.endDate = endDate;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -83,7 +88,7 @@ public class Contract {
     public String getStartDate() { return startDate; }
     public String getEndDate() { return endDate; }
     public double getContractValue() { return contractValue; }
-    public String getStatus() { return status.name(); }
+    public OrderStatus getStatus() { return status; }
 
     public void setOrderStatus(String status) {
         if(status != null){

@@ -45,7 +45,7 @@ public class Admin {
 
     public void createRentalAgreement(Student student, House house, String startDate, String endDate) {
         if (house.isAvailable()) {
-            Contract c = new Contract(student.getName(), startDate, endDate, house.getRentPrice(), OrderStatus.PENDING.name(), student, house);
+            Contract c = new Contract(student, house, startDate, endDate, house.getRentPrice(), OrderStatus.PENDING);
             contracts.add(c);
             // link contract to the student
             student.setContract(c); 
