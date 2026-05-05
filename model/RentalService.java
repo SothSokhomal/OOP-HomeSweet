@@ -6,9 +6,11 @@ public class RentalService {
 
     public Contract createContract(Student student, House house, String start, String end) {
         return new Contract(
+            student.getName(),
             start,
             end,
             house.getRentPrice(),
+            OrderStatus.PENDING.name(),
             student,
             house
         );
