@@ -1,7 +1,7 @@
 package model;
 import java.util.ArrayList;
 
-public class Admin {
+public class Admin implements Searchable {
     private String name;
     private String email;
     private String password;
@@ -24,24 +24,50 @@ public class Admin {
 
     public void viewStudents() {
         System.out.println("\n--- Student List ---");
-        for(Student s : students) System.out.println(s);
+        for(Student s : students) s.displayInfo();
     }
     public void viewLandlords() {
         System.out.println("\n--- Landlord List ---");
-        for(Landlord l : landlords) System.out.println(l);
+        for(Landlord l : landlords) l.displayInfo();
     }
     public void viewHouses() {
         System.out.println("\n--- House List ---");
-        for(House h : houses) System.out.println(h);
+        for(House h : houses) h.displayInfo();
     }
     public void viewAllPayments() {
         System.out.println("\n--- Payment History ---");
-        for(Payment p : payments) System.out.println(p);
+        for(Payment p : payments) p.displayInfo();
     }
 
     public void viewContracts() {
         System.out.println("\n--- Contract List ---");
-        for(Contract c : contracts) System.out.println(c);
+        for(Contract c : contracts) c.displayInfo();
+    }
+
+    @Override
+    public void search(String keyword) {
+        System.out.println("\n--- Search Results for: " + keyword + " ---");
+        boolean found = false;
+        
+        System.out.println("Students:");
+        for(Student s : students) {
+            if (s.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                s.displayInfo();
+                found = true;
+            }
+        }
+        
+        System.out.println("Landlords:");
+        for(Landlord l : landlords) {
+            if (l.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                l.displayInfo();
+                found = true;
+            }
+        }
+        
+        if (!found) {
+            System.out.println("No matching records found.");
+        }
     }
 
     public ArrayList<Payment> getPayments() {

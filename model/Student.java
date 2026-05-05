@@ -1,13 +1,14 @@
 package model;
+import java.util.ArrayList;
 
-public class Student {
+public class Student implements Displayable {
     private static int idCounter = 1;
     private int id;
     private String name;
     private String email;
     private String phonNumber;
     private String password;
-    private Contract contract;
+    private ArrayList<Contract> contracts = new ArrayList<>();
     private String nationalId;     
 
     public Student(String name, String email, String phonNumber, String password, Contract contract, String nationalId){
@@ -16,7 +17,9 @@ public class Student {
         this.email = email;
         this.phonNumber = phonNumber;
         this.password = password;
-        this.contract = contract;
+        if (contract != null) {
+            this.contracts.add(contract);
+        }
         this.nationalId = nationalId;
     }
 
@@ -39,8 +42,8 @@ public class Student {
     public String getPassword() {
         return password;
     }
-    public Contract getContract() {
-        return contract;
+    public ArrayList<Contract> getContracts() {
+        return contracts;
     }
     public String getNationalId() {
         return nationalId;
@@ -84,11 +87,10 @@ public class Student {
 
     public void setContract(Contract contract) {
         if (contract != null) {
-            this.contract = contract;
-        } else {
-            this.contract = null;
+            this.contracts.add(contract);
         }
     }
+    
     public void setNationalId(String nationalId) {
         if (nationalId != null && nationalId.matches("\\d{14}")) {
             this.nationalId = nationalId;
@@ -99,6 +101,11 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student [id=" + id + ", name=" + name + ", hasContract=" + (contract != null) + "]";
+        return "Student [id=" + id + ", name=" + name + ", numContracts=" + contracts.size() + "]";
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println(this.toString());
     }
 }

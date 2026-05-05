@@ -1,7 +1,7 @@
 package model;
 import java.util.ArrayList;
 
-public class Landlord {
+public class Landlord implements Displayable {
     private static int idCounter = 1;
     private int id;
     private String name;     
@@ -145,6 +145,11 @@ public class Landlord {
         return "Landlord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address="
                 + address + ", password=" + password + ", nationalID=" + nationalID + ", isVerified=" + isVerified
                 + ", isActive=" + isActive + "]";
+    }
+    
+    @Override
+    public void displayInfo() {
+        System.out.println(this.toString());
     }
     
     

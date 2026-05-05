@@ -1,18 +1,18 @@
 package model;
 
-public class House {
+public class House implements Displayable, StatusManageable {
     private static int idCounter = 1;
     private int id;
     private String address;
     private boolean isAvailable;
-    private Landlord landlordName;
+    private Landlord landlord;
     private String city;
     private double rentPrice;
 
-    public House(String address, Landlord landlordName, boolean isAvailable, String city, double rentPrice){
+    public House(String address, Landlord landlord, boolean isAvailable, String city, double rentPrice){
         this.id = idCounter++;
         this.setAddress(address);
-        this.setLandlord(landlordName);
+        this.setLandlord(landlord);
         this.setCity(city);
         this.setAvailable(isAvailable);
         this.setRentPrice(rentPrice);
@@ -30,8 +30,8 @@ public class House {
         return isAvailable; 
     }
 
-    public Landlord getLandlordName() {
-        return landlordName;
+    public Landlord getLandlord() {
+        return landlord;
     }
 
     public String getCity() {
@@ -59,8 +59,8 @@ public class House {
         this.isAvailable = isAvailable;
     }
 
-    public void setLandlord(Landlord landlordName) {
-        this.landlordName = landlordName;
+    public void setLandlord(Landlord landlord) {
+        this.landlord = landlord;
     }
 
     public void setRentPrice(double rentPrice) {
@@ -71,24 +71,37 @@ public class House {
         }
     }
 
-    public void setCity(String city2) {
-        if (city2 != null && !city2.trim().isEmpty()) {
-            this.city = city2;
+    public void setCity(String city) {
+        if (city != null && !city.trim().isEmpty()) {
+            this.city = city;
         } else {
             this.city = "Unknown City";
         }
     }
 
-    public void setOwner(Landlord landlord) {
-        this.landlordName = landlord;
-    }
-
     @Override
     public String toString() {
         return "House [id=" + id + ", address=" + address + ", city=" + city + 
-            ", landlord=" + landlordName.getName() + ", isAvailable=" + isAvailable + 
+            ", landlord=" + (landlord != null ? landlord.getName() : "None") + ", isAvailable=" + isAvailable + 
             ", rentPrice=" + rentPrice + "]";
     }
 
-    
+    @Override
+    public void displayInfo() {
+        System.out.println(this.toString());
+    }
+
+    @Override
+    public void updateStatus(String status) {
+        if (status != null && status.equalsIgnoreCase("unavailable")) {
+            this.isAvailable = false;
+        } else if (status != null && status.equalsIgnoreCase("available")) {
+            this.isAvailable = true;
+        }
+    }
+
+    @Override
+    public String getCurrentStatus() {
+        return isAvailable ? "Available" : "Unavailable";
+    }
 }

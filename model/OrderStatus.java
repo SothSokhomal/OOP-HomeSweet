@@ -1,7 +1,7 @@
 package model;
 
 public enum OrderStatus {
-    PENDING, CONFIRMED, CANCELLED;
+    PENDING, CONFIRMED, CANCELLED, ACTIVE;
 
     public static OrderStatus fromString(String status) {
         if (status == null) return PENDING; // Default to PENDING if null

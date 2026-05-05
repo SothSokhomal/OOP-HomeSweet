@@ -1,21 +1,23 @@
 package model;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
-public class Contract {
+public class Contract implements Displayable, StatusManageable {
     private static int idCounter = 1;
     private int id;
     private Student student;
     private House house;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private double rentPrice;
     private OrderStatus status;
 
-    public Contract(String clientName, String startDate, String endDate, double rentPrice, String status, Student student, House house){
+    public Contract(String clientName, String startDateStr, String endDateStr, double rentPrice, String status, Student student, House house){
         this.id = idCounter++;
         this.setStudent(student);
         this.setHouse(house);
-        this.setStartDate(startDate);
-        this.setEndDate(endDate);
+        this.setStartDate(startDateStr);
+        this.setEndDate(endDateStr);
         this.setRentPrice(rentPrice);
         this.setOrderStatus(status);
     }
@@ -23,12 +25,12 @@ public class Contract {
     public int getId() { return id; }
     public Student getStudent() { return student; }
     public House getHouse() { return house; }
-    public String getStartDate() { return startDate; }
-    public String getEndDate() { return endDate; }
+    public LocalDate getStartDate() { return startDate; }
+    public LocalDate getEndDate() { return endDate; }
     public double getContractValue() { return rentPrice; }
     public String getStatus() { return status.name(); }
 
-        private void setStudent(Student student) {
+    private void setStudent(Student student) {
         if (student != null) {
             this.student = student;
         } else {
@@ -44,19 +46,31 @@ public class Contract {
         }
     }
 
-    private void setStartDate(String startDate) {
-        if (startDate != null) {
-            this.startDate = startDate;
+    private void setStartDate(String startDateStr) {
+        if (startDateStr != null) {
+            try {
+                this.startDate = LocalDate.parse(startDateStr);
+            } catch (DateTimeParseException e) {
+                System.err.println("Invalid start date format. Using current date.");
+                this.startDate = LocalDate.now();
+            }
         } else {
             System.err.println("Invalid start date. Contract will not have a valid start date.");
+            this.startDate = LocalDate.now();
         }
     }
 
-    private void setEndDate(String endDate) {
-        if (endDate != null) {
-            this.endDate = endDate;
+    private void setEndDate(String endDateStr) {
+        if (endDateStr != null) {
+            try {
+                this.endDate = LocalDate.parse(endDateStr);
+            } catch (DateTimeParseException e) {
+                System.err.println("Invalid end date format. Using current date + 1 year.");
+                this.endDate = LocalDate.now().plusYears(1);
+            }
         } else {
             System.err.println("Invalid end date. Contract will not have a valid end date.");
+            this.endDate = LocalDate.now().plusYears(1);
         }
     }
 
@@ -78,6 +92,21 @@ public class Contract {
 
     @Override
     public String toString() {
-        return "Contract [ID=" + id + ", Student=" + student.getName() + ", House=" + house.getAddress() + "]";
+        return "Contract [ID=" + id + ", Student=" + student.getName() + ", House=" + house.getAddress() + ", Status=" + status.name() + "]";
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println(this.toString());
+    }
+
+    @Override
+    public void updateStatus(String status) {
+        setOrderStatus(status);
+    }
+
+    @Override
+    public String getCurrentStatus() {
+        return getStatus();
     }
 }
