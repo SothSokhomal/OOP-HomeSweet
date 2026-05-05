@@ -7,7 +7,7 @@ public class Contract {
     private House house;
     private String startDate;
     private String endDate;
-    private double contractValue;
+    private double rentPrice;
     private OrderStatus status;
 
     public Contract(String clientName, String startDate, String endDate, double d, OrderStatus status, Student student, House house){
@@ -16,12 +16,19 @@ public class Contract {
         this.house = house;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.rentPrice = d;
         this.status = status;
     }
 
     public Contract(Student student2, House house2, String startDate2, String endDate2, double rentPrice,
             OrderStatus pending) {
-        //TODO Auto-generated constructor stub
+        this.id = idCounter++;
+        this.student = student2;
+        this.house = house2;
+        this.startDate = startDate2;
+        this.endDate = endDate2;
+        this.rentPrice = rentPrice;
+        this.status = pending;
     }
 
     public static int getIdCounter() {
@@ -63,23 +70,43 @@ public class Contract {
     }
 
     public void setStudent(Student student) {
-        this.student = student;
+        if (student != null) {
+            this.student = student;
+        } else {
+            System.err.println("Invalid student. Contract will not be linked to a student.");
+        }
     }
 
     public void setHouse(House house) {
-        this.house = house;
+        if (house != null) {
+            this.house = house;
+        } else {
+            System.err.println("Invalid house. Contract will not be linked to a house.");
+        }
     }
 
     public void setStartDate(String startDate) {
-        this.startDate = startDate;
+        if (startDate != null) {
+            this.startDate = startDate;
+        } else {
+            System.err.println("Invalid start date. Contract will not have a valid start date.");
+        }
     }
 
     public void setEndDate(String endDate) {
-        this.endDate = endDate;
+        if (endDate != null) {
+            this.endDate = endDate;
+        } else {
+            System.err.println("Invalid end date. Contract will not have a valid end date.");
+        }
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setRentPrice(double rentPrice) {
+        if (rentPrice > 0) {
+            this.rentPrice = rentPrice;
+        } else {
+            System.err.println("Invalid rent price. Contract will not have a valid rent price.");
+        }
     }
 
     public int getId() { return id; }
@@ -87,8 +114,8 @@ public class Contract {
     public House getHouse() { return house; }
     public String getStartDate() { return startDate; }
     public String getEndDate() { return endDate; }
-    public double getContractValue() { return contractValue; }
-    public OrderStatus getStatus() { return status; }
+    public double getContractValue() { return rentPrice; }
+    public String getStatus() { return status.name(); }
 
     public void setOrderStatus(String status) {
         if(status != null){
