@@ -3,7 +3,11 @@ package main;
 import model.Admin;
 import model.House;
 import model.Landlord;
+import model.OrderStatus;
+import model.Payment;
+import model.RentalService;
 import model.Student;
+import model.Contract;
 
 public class HomeSweetMain {
     public static void main(String[] args) {
@@ -36,7 +40,10 @@ public class HomeSweetMain {
         a1.viewLandlords();
 
         System.out.println("\n--- PROCESSING RENTAL ---");
-        a1.createRentalAgreement(s1, h1, "2023-10-01", "2024-10-01");
+        RentalService service = new RentalService();
+        Contract c1 = service.createContract(s1, h1, "2023-10-01", "2024-10-01");
+        a1.addContract(c1);
+        service.processRental(s1, h1, c1, a1.getPayments());
 
         System.out.println("\n--- UPDATED STATE ---");
         a1.viewHouses(); 
