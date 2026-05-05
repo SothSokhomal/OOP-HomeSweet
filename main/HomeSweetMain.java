@@ -43,7 +43,11 @@ public class HomeSweetMain {
         RentalService service = new RentalService();
         Contract c1 = service.createContract(s1, h1, "2023-10-01", "2024-10-01");
         a1.addContract(c1);
-        service.processRental(s1, h1, c1, a1.getPayments());
+        if (c1 == null) {
+            System.err.println("Cannot create payment due to contract creation failure.");
+        }else {
+            service.processRental(s1, h1, c1, a1.getPayments());
+        }
 
         System.out.println("\n--- UPDATED STATE ---");
         a1.viewHouses(); 
