@@ -20,6 +20,7 @@ public class Admin {
     public void addStudent(Student s) { students.add(s); }
     public void addLandlord(Landlord l) { landlords.add(l); }
     public void addHouse(House h) { houses.add(h); }
+    public void addContract(Contract c) { contracts.add(c); }
 
     public void viewStudents() {
         System.out.println("\n--- Student List ---");
@@ -43,14 +44,7 @@ public class Admin {
         for(Contract c : contracts) System.out.println(c);
     }
 
-    public void createRentalAgreement(Student student, House house, String startDate, String endDate) {
-        if (house.isAvailable()) {
-            Contract c = new Contract(student.getName(), startDate, endDate, house.getRentPrice(), OrderStatus.PENDING.name(), student, house);
-            contracts.add(c);
-            student.setContract(c); // Link the contract to the student
-            house.setAvailable(false);
-            payments.add(new Payment(c, house.getRentPrice(), OrderStatus.PENDING.name())); // Create initial payment record
-            System.out.println("Rental Processed for: " + student.getName());
-        }
+    public ArrayList<Payment> getPayments() {
+        return payments;
     }
 }
