@@ -49,7 +49,8 @@ public class House {
     public void setAddress(String address) {
         if (address != null && !address.trim().isEmpty()) {
             this.address = address;
-        } else {
+        } 
+        else {
             this.address = "Unknown Address";
         }
     }

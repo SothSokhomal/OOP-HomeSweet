@@ -13,7 +13,7 @@ public class HomeSweetMain {
         //Create Landlords
         Landlord l1 = new Landlord("Elizabeth", "1234567890", "abc123@gmail.com", "Phnom Penh", "welkimoon123456", "1432763289123083", true, true);
         
-        //Create Students (Passing 'null' for the Contract object initially)
+        //Create Students 
         Student s1 = new Student("Jane Smith", "janesmith@gmail.com", "9876543210", "studentpassword@", null, "12345678901234");
 
         //Create Houses
@@ -48,7 +48,7 @@ public class HomeSweetMain {
         a1.viewAllPayments(); 
         
         // Landlord adds their properties
-        l1.addProperty(h3);
+        l1.addProperty(h1);
 
         System.out.println("\n--- LANDLORD PROPERTIES ---");
         l1.LandlordViewProperties();

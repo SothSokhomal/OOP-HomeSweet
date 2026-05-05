@@ -1,9 +1,6 @@
 package model;
 import java.util.ArrayList;
 
-
-import java.util.ArrayList;
-
 public class Landlord {
     private static int idCounter = 1;
     private int id;
@@ -64,10 +61,6 @@ public class Landlord {
 
     public boolean isActive() {
         return isActive;
-    }
-
-    private void setId(int id) {
-        this.id = id;
     }
 
     public void addHouse(House h) {
