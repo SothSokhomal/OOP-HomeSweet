@@ -3,6 +3,8 @@ import java.util.ArrayList;
 
 public class Admin {
     private String name;
+    private String email;
+    private String password;
     private ArrayList<Student> students = new ArrayList<>();
     private ArrayList<Landlord> landlords = new ArrayList<>();
     private ArrayList<House> houses = new ArrayList<>();
@@ -11,6 +13,8 @@ public class Admin {
 
     public Admin(String name, String email, String password){
         this.name = name;
+        this.email = email;
+        this.password = password;
     }
 
     public void addStudent(Student s) { students.add(s); }
@@ -41,12 +45,12 @@ public class Admin {
 
     public void createRentalAgreement(Student student, House house, String startDate, String endDate) {
         if (house.isAvailable()) {
-            // Contract c = new Contract(student.getName(), startDate, endDate, house.getRentPrice(), "Active", student, house);
+            Contract c = new Contract(student.getName(), startDate, endDate, house.getRentPrice(), OrderStatus.PENDING.name(), student, house);
             contracts.add(c);
             // link contract to the student
             student.setContract(c); 
             house.setAvailable(false);
-            payments.add(new Payment(c, house.getRentPrice(), "Pending"));
+            payments.add(new Payment(c, house.getRentPrice(), OrderStatus.PENDING.name())); // Create initial payment record
             System.out.println("Rental Processed for: " + student.getName());
         }
     }

@@ -7,7 +7,8 @@ public class Contract {
     private House house;
     private String startDate;
     private String endDate;
-    private String status;
+    private double contractValue;
+    private OrderStatus status;
 
     public Contract(String clientName, String startDate, String endDate, String status, Student student, House house){
         this.id = idCounter++;
@@ -77,6 +78,20 @@ public class Contract {
     }
 
     public int getId() { return id; }
+    public Student getStudent() { return student; }
+    public House getHouse() { return house; }
+    public String getStartDate() { return startDate; }
+    public String getEndDate() { return endDate; }
+    public double getContractValue() { return contractValue; }
+    public String getStatus() { return status.name(); }
+
+    public void setOrderStatus(String status) {
+        if(status != null){
+            this.status = OrderStatus.fromString(status);
+        } else {
+            this.status = OrderStatus.PENDING;
+        }
+    }
 
     @Override
     public String toString() {

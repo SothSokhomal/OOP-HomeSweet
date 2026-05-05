@@ -9,35 +9,15 @@ public class Payment {
 
     public Payment(Contract contract, double amount, String paymentStatus){
         this.id = idCounter++;
-        this.setContract(contract);
-        this.setAmount(amount);
-        this.setPaymentStatus(paymentStatus);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public Contract getContract() {
-        return contract;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    //never allow external modification of ID, so no setter for ID
-    // private void setId(int id) {
-    //     this.id = id;
-    // }
-
-    private void setContract(Contract contract) {
         this.contract = contract;
+        this.amount = (amount>0) ? amount : 0.0;
+        this.paymentStatus = (paymentStatus == null) ? PaymentStatus.UNPAID.name() : PaymentStatus.fromString(paymentStatus).name();
     }
+
+    public int getId() {return id; }
+    public Contract getContract() {return contract;}
+    public double getAmount() {return amount;}
+    public String getPaymentStatus() {return paymentStatus;}
 
     public void setAmount(double amount) {
         if(amount > 0){
@@ -47,12 +27,11 @@ public class Payment {
         }
     }
 
-    public void setPaymentStatus(String paymentStatus) {
-        if(paymentStatus != null && 
-           (paymentStatus.equalsIgnoreCase("Paid") || paymentStatus.equalsIgnoreCase("Pending"))){
-            this.paymentStatus = paymentStatus;
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        if(paymentStatus != null){
+            this.paymentStatus = paymentStatus.name();
         } else {
-            this.paymentStatus = "Pending";
+            this.paymentStatus = PaymentStatus.PENDING.name();
         }
     }
 
