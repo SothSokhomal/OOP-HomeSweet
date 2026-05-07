@@ -98,6 +98,15 @@ public class Student implements Displayable {
             System.out.println("Please enter a valid 14-digit national ID");
         }
     }
+    
+    public void viewContracts() {
+        System.out.println("\n--- Contracts for: " + name + " ---");
+        if (contracts.isEmpty()) {
+            System.out.println("No contracts found.");
+        } else {
+            for (Contract c : contracts) c.displayInfo();
+        }
+    }
 
     @Override
     public String toString() {

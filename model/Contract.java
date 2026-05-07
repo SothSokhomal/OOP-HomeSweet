@@ -90,6 +90,16 @@ public class Contract implements Displayable, StatusManageable {
         }
     }
 
+    public void viewDetails() {
+        System.out.println("\n--- Contract Details ---");
+        System.out.println("Contract ID : " + id);
+        System.out.println("Student     : " + student.getName());
+        System.out.println("House       : " + house.getAddress() + ", " + house.getCity());
+        System.out.println("Period      : " + startDate + " to " + endDate);
+        System.out.println("Rent Price  : $" + rentPrice);
+        System.out.println("Status      : " + status.name());
+    }
+
     @Override
     public String toString() {
         return "Contract [ID=" + id + ", Student=" + student.getName() + ", House=" + house.getAddress() + ", Status=" + status.name() + "]";

@@ -62,7 +62,10 @@ public class HomeSweetMain {
         // Landlord adds their properties
         l1.addProperty(h1);
 
-        System.out.println("\n--- LANDLORD PROPERTIES ---");
+        // classes displaying it's own related data
+        System.out.println("\n--- CLASSES DISPLAYING THEIR OWN RELATED DATA ---");
+        s1.viewContracts();
         l1.LandlordViewProperties();
+        c1.viewDetails();
     }
 }

@@ -146,7 +146,12 @@ public class Landlord implements Displayable {
     }
 
     public void LandlordViewProperties() {
-        houses.forEach(System.out::println);
+        System.out.println("\n--- Properties for: " + name + " ---");
+        if (houses.isEmpty()) {
+            System.out.println("No properties found.");
+        } else {
+            for (House h : houses) h.displayInfo();
+        }
     }
 
     @Override
