@@ -1,10 +1,11 @@
 package model;
+
 import java.util.ArrayList;
 
 public class Landlord implements Displayable {
     private static int idCounter = 1;
     private int id;
-    private String name;     
+    private String name;
     private String phone;
     private String email;
     private String address;
@@ -15,7 +16,8 @@ public class Landlord implements Displayable {
 
     private ArrayList<House> houses = new ArrayList<>();
 
-    public Landlord(String name, String phone, String email, String address, String password, String nationalID, boolean isVerified, boolean isActive){
+    public Landlord(String name, String phone, String email, String address, String password, String nationalID,
+            boolean isVerified, boolean isActive) {
         this.id = idCounter++;
         this.setName(name);
         this.setPhone(phone);
@@ -64,8 +66,11 @@ public class Landlord implements Displayable {
     }
 
     public void addHouse(House h) {
-        this.houses.add(h);
+        if (!houses.contains(h)) {
+            houses.add(h);
+        }
     }
+
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
             this.name = name;
@@ -98,33 +103,37 @@ public class Landlord implements Displayable {
         }
     }
 
-    private void setActive(boolean isActive2) {
-        this.isActive = isActive2;
+    private void setActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
-    private void setVerified(boolean isVerified2) {
-        this.isVerified = isVerified2;
+    private void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
     }
 
-    private void setNationalID(String nationalID2) {
-        if (nationalID2 != null && nationalID2.matches("\\d{14}")) {
-            this.nationalID = nationalID2;
+    private void setNationalID(String nationalID) {
+        if (nationalID != null && nationalID.matches("\\d{14}")) {
+            this.nationalID = nationalID;
         } else {
             System.out.println("Please enter a valid 14-digit national ID");
         }
     }
 
-    private void setPassword(String password2) {
-        if (password2 != null && password2.length() >= 6) {
-            this.password = password2;
+    private void setPassword(String password) {
+        if (password != null && password.length() >= 6) {
+            this.password = password;
         } else {
             System.out.println("Password must be at least 6 characters long.");
         }
     }
 
     public void addProperty(House house) {
-        house.setLandlord(this);
-        houses.add(house);
+        if (!houses.contains(house)) {
+            house.setLandlord(this);
+            houses.add(house);
+        } else {
+            System.out.println("House already exists in landlord's property list: " + house.getAddress());
+        }
     }
 
     public void removeProperty(House house) {
@@ -142,15 +151,13 @@ public class Landlord implements Displayable {
 
     @Override
     public String toString() {
-        return "Landlord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email + ", address="
-                + address + ", password=" + password + ", nationalID=" + nationalID + ", isVerified=" + isVerified
-                + ", isActive=" + isActive + "]";
+        return "Landlord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email +
+                ", address=" + address + ", password=" + password + ", nationalID=" + nationalID +
+                ", isVerified=" + isVerified + ", isActive=" + isActive + "]";
     }
-    
+
     @Override
     public void displayInfo() {
         System.out.println(this.toString());
     }
-    
-    
 }

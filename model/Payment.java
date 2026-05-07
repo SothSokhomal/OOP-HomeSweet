@@ -1,26 +1,38 @@
 package model;
 
-public class Payment implements Displayable, Payable {
+public class Payment implements Displayable, Payable, StatusManageable {
     private static int idCounter = 1;
     private int id;
     private Contract contract;
     private double amount;
     private PaymentStatus paymentStatus;
 
-    public Payment(Contract contract, double amount, String paymentStatusStr){
+    public Payment(Contract contract, double amount, String paymentStatusStr) {
         this.id = idCounter++;
         this.contract = contract;
-        this.amount = (amount>0) ? amount : 0.0;
-        this.paymentStatus = (paymentStatusStr == null) ? PaymentStatus.UNPAID : PaymentStatus.fromString(paymentStatusStr);
+        this.amount = (amount > 0) ? amount : 0.0;
+        this.paymentStatus = (paymentStatusStr == null) ? PaymentStatus.UNPAID
+                : PaymentStatus.fromString(paymentStatusStr);
     }
 
-    public int getId() {return id; }
-    public Contract getContract() {return contract;}
-    public double getAmount() {return amount;}
-    public String getPaymentStatus() {return paymentStatus.name();}
+    public int getId() {
+        return id;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus.name();
+    }
 
     public void setAmount(double amount) {
-        if(amount > 0){
+        if (amount > 0) {
             this.amount = amount;
         } else {
             this.amount = 0.0;
@@ -28,7 +40,7 @@ public class Payment implements Displayable, Payable {
     }
 
     public void setPaymentStatus(PaymentStatus paymentStatus) {
-        if(paymentStatus != null){
+        if (paymentStatus != null) {
             this.paymentStatus = paymentStatus;
         } else {
             this.paymentStatus = PaymentStatus.PENDING;
@@ -37,10 +49,10 @@ public class Payment implements Displayable, Payable {
 
     @Override
     public String toString() {
-        return "Payment [id=" + id + 
-               ", contract=" + (contract != null ? contract.getId() : "0") + 
-               ", amount=$" + amount + 
-               ", paymentStatus=" + paymentStatus.name() + "]";
+        return "Payment [id=" + id +
+                ", contract=" + (contract != null ? contract.getId() : "0") +
+                ", amount=$" + amount +
+                ", paymentStatus=" + paymentStatus.name() + "]";
     }
 
     @Override
@@ -64,5 +76,15 @@ public class Payment implements Displayable, Payable {
     @Override
     public boolean isPaid() {
         return this.paymentStatus == PaymentStatus.PAID;
+    }
+
+    @Override
+    public void updateStatus(String status) {
+        this.paymentStatus = PaymentStatus.fromString(status);
+    }
+
+    @Override
+    public String getCurrentStatus() {
+        return paymentStatus.name();
     }
 }
