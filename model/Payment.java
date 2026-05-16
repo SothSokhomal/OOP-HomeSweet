@@ -1,5 +1,9 @@
 package model;
 
+import interfaces.Displayable;
+import interfaces.Payable;
+import interfaces.StatusManageable;
+
 public class Payment implements Displayable, Payable, StatusManageable {
     private static int idCounter = 1;
     private int id;
@@ -62,10 +66,10 @@ public class Payment implements Displayable, Payable, StatusManageable {
 
     @Override
     public void processPayment(double amount) {
-        if (amount >= this.amount) {
+        if (Double.compare(amount, this.amount) >= 0) {
             this.paymentStatus = PaymentStatus.PAID;
             if (this.contract != null) {
-                this.contract.updateStatus(OrderStatus.ACTIVE.name());
+                this.contract.updateStatus(ContractStatus.ACTIVE.name());
             }
             System.out.println("Payment processed successfully.");
         } else {

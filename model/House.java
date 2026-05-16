@@ -1,5 +1,8 @@
 package model;
 
+import interfaces.Displayable;
+import interfaces.StatusManageable;
+
 public class House implements Displayable, StatusManageable {
     private static int idCounter = 1;
     private int id;
@@ -9,7 +12,7 @@ public class House implements Displayable, StatusManageable {
     private String city;
     private double rentPrice;
 
-    public House(String address, Landlord landlord, boolean isAvailable, String city, double rentPrice){
+    public House(String address, Landlord landlord, boolean isAvailable, String city, double rentPrice) {
         this.id = idCounter++;
         this.setAddress(address);
         this.setLandlord(landlord);
@@ -26,8 +29,8 @@ public class House implements Displayable, StatusManageable {
         return address;
     }
 
-    public boolean isAvailable() { 
-        return isAvailable; 
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
     public Landlord getLandlord() {
@@ -49,8 +52,7 @@ public class House implements Displayable, StatusManageable {
     public void setAddress(String address) {
         if (address != null && !address.trim().isEmpty()) {
             this.address = address;
-        } 
-        else {
+        } else {
             this.address = "Unknown Address";
         }
     }
@@ -81,9 +83,9 @@ public class House implements Displayable, StatusManageable {
 
     @Override
     public String toString() {
-        return "House [id=" + id + ", address=" + address + ", city=" + city + 
-            ", landlord=" + (landlord != null ? landlord.getName() : "None") + ", isAvailable=" + isAvailable + 
-            ", rentPrice=" + rentPrice + "]";
+        return "House [id=" + id + ", address=" + address + ", city=" + city +
+                ", landlord=" + (landlord != null ? landlord.getName() : "None") + ", isAvailable=" + isAvailable +
+                ", rentPrice=" + rentPrice + "]";
     }
 
     @Override

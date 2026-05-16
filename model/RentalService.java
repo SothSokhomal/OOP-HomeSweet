@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RentalService {
 
@@ -10,12 +11,12 @@ public class RentalService {
                 start,
                 end,
                 house.getRentPrice(),
-                OrderStatus.PENDING.name(),
+                ContractStatus.PENDING.name(),
                 student,
                 house);
     }
 
-    public void processRental(Student student, House house, Contract contract, ArrayList<Payment> payments) {
+    public void processRental(Student student, House house, Contract contract, List<Payment> payments) {
 
         if (house.isAvailable()) {
             student.setContract(contract);

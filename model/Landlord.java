@@ -2,12 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
-public class Landlord implements Displayable {
+import interfaces.Displayable;
+
+public class Landlord extends Person implements Displayable {
     private static int idCounter = 1;
-    private int id;
-    private String name;
-    private String phone;
-    private String email;
     private String address;
     private String password;
     private String nationalID;
@@ -18,10 +16,7 @@ public class Landlord implements Displayable {
 
     public Landlord(String name, String phone, String email, String address, String password, String nationalID,
             boolean isVerified, boolean isActive) {
-        this.id = idCounter++;
-        this.setName(name);
-        this.setPhone(phone);
-        this.setEmail(email);
+        super(idCounter++, name, email, phone);
         this.setAddress(address);
         this.setPassword(password);
         this.setNationalID(nationalID);
@@ -29,21 +24,7 @@ public class Landlord implements Displayable {
         this.setActive(isActive);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
+    // Inherits getId, getName, getPhoneNumber, getEmail from Person
 
     public String getAddress() {
         return address;
@@ -71,29 +52,7 @@ public class Landlord implements Displayable {
         }
     }
 
-    public void setName(String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name;
-        } else {
-            this.name = "Unknown Landlord";
-        }
-    }
-
-    public void setPhone(String phone) {
-        if (phone != null && phone.matches("\\d{10}")) {
-            this.phone = phone;
-        } else {
-            System.out.println("Please enter a valid 10-digit phone number");
-        }
-    }
-
-    public void setEmail(String email) {
-        if (email != null && email.contains("@") && email.endsWith(".com")) {
-            this.email = email;
-        } else {
-            this.email = "landlord@error.com";
-        }
-    }
+    // Inherits setName, setPhoneNumber, setEmail from Person
 
     public void setAddress(String address) {
         if (address != null && !address.trim().isEmpty()) {
@@ -146,17 +105,18 @@ public class Landlord implements Displayable {
     }
 
     public void LandlordViewProperties() {
-        System.out.println("\n--- Properties for: " + name + " ---");
+        System.out.println("\n--- Properties for: " + getName() + " ---");
         if (houses.isEmpty()) {
             System.out.println("No properties found.");
         } else {
-            for (House h : houses) h.displayInfo();
+            for (House h : houses)
+                h.displayInfo();
         }
     }
 
     @Override
     public String toString() {
-        return "Landlord [id=" + id + ", name=" + name + ", phone=" + phone + ", email=" + email +
+        return "Landlord [id=" + getId() + ", name=" + getName() + ", phone=" + getPhoneNumber() + ", email=" + getEmail() +
                 ", address=" + address + ", password=" + password + ", nationalID=" + nationalID +
                 ", isVerified=" + isVerified + ", isActive=" + isActive + "]";
     }

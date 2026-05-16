@@ -1,6 +1,10 @@
 package model;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+import interfaces.Displayable;
+import interfaces.StatusManageable;
 
 public class Contract implements Displayable, StatusManageable {
     private static int idCounter = 1;
@@ -10,9 +14,10 @@ public class Contract implements Displayable, StatusManageable {
     private LocalDate startDate;
     private LocalDate endDate;
     private double rentPrice;
-    private OrderStatus status;
+    private ContractStatus status;
 
-    public Contract(String clientName, String startDateStr, String endDateStr, double rentPrice, String status, Student student, House house){
+    public Contract(String clientName, String startDateStr, String endDateStr, double rentPrice, String status,
+            Student student, House house) {
         this.id = idCounter++;
         this.setStudent(student);
         this.setHouse(house);
@@ -22,13 +27,33 @@ public class Contract implements Displayable, StatusManageable {
         this.setOrderStatus(status);
     }
 
-    public int getId() { return id; }
-    public Student getStudent() { return student; }
-    public House getHouse() { return house; }
-    public LocalDate getStartDate() { return startDate; }
-    public LocalDate getEndDate() { return endDate; }
-    public double getContractValue() { return rentPrice; }
-    public String getStatus() { return status.name(); }
+    public int getId() {
+        return id;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public double getContractValue() {
+        return rentPrice;
+    }
+
+    public String getStatus() {
+        return status.name();
+    }
 
     private void setStudent(Student student) {
         if (student != null) {
@@ -83,10 +108,10 @@ public class Contract implements Displayable, StatusManageable {
     }
 
     public void setOrderStatus(String status) {
-        if(status != null){
-            this.status = OrderStatus.fromString(status);
+        if (status != null) {
+            this.status = ContractStatus.fromString(status);
         } else {
-            this.status = OrderStatus.PENDING;
+            this.status = ContractStatus.PENDING;
         }
     }
 
@@ -102,7 +127,8 @@ public class Contract implements Displayable, StatusManageable {
 
     @Override
     public String toString() {
-        return "Contract [ID=" + id + ", Student=" + student.getName() + ", House=" + house.getAddress() + ", Status=" + status.name() + "]";
+        return "Contract [ID=" + id + ", Student=" + student.getName() + ", House=" + house.getAddress() + ", Status="
+                + status.name() + "]";
     }
 
     @Override
