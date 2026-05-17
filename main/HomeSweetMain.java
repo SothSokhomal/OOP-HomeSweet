@@ -15,7 +15,7 @@ import model.PaymentService;
 
 public class HomeSweetMain {
     public static void main(String[] args) {
-
+        //create Admin
         Admin a1 = new Admin("John Doe", "johndoe@gmail.com", "password123!");
 
         // Create Landlords

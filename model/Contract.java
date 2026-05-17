@@ -24,7 +24,7 @@ public class Contract implements Displayable, StatusManageable {
         this.setStartDate(startDateStr);
         this.setEndDate(endDateStr);
         this.setRentPrice(rentPrice);
-        this.setOrderStatus(status);
+        this.setContractStatus(status);
     }
 
     public int getId() {
@@ -107,7 +107,7 @@ public class Contract implements Displayable, StatusManageable {
         }
     }
 
-    public void setOrderStatus(String status) {
+    public void setContractStatus(String status) {
         if (status != null) {
             this.status = ContractStatus.fromString(status);
         } else {
@@ -138,7 +138,7 @@ public class Contract implements Displayable, StatusManageable {
 
     @Override
     public void updateStatus(String status) {
-        setOrderStatus(status);
+        setContractStatus(status);
     }
 
     @Override
