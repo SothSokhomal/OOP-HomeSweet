@@ -12,8 +12,7 @@ public class Student extends Person implements Displayable {
 
     public Student(String name, String email, String phonNumber, String password, Contract contract,
             String nationalId) {
-        super(idCounter++, name, email, phonNumber);
-        this.password = password;
+        super(idCounter++, name, email, phonNumber, password);
         if (contract != null) {
             this.contracts.add(contract);
         }

@@ -16,9 +16,8 @@ public class Landlord extends Person implements Displayable {
 
     public Landlord(String name, String phone, String email, String address, String password, String nationalID,
             boolean isVerified, boolean isActive) {
-        super(idCounter++, name, email, phone);
+        super(idCounter++, name, email, phone, password);
         this.setAddress(address);
-        this.setPassword(password);
         this.setNationalID(nationalID);
         this.setVerified(isVerified);
         this.setActive(isActive);
@@ -62,7 +61,7 @@ public class Landlord extends Person implements Displayable {
         }
     }
 
-    private void setActive(boolean isActive) {
+    void setActive(boolean isActive) {
         this.isActive = isActive;
     }
 
@@ -78,7 +77,7 @@ public class Landlord extends Person implements Displayable {
         }
     }
 
-    private void setPassword(String password) {
+    public void setPassword(String password) {
         if (password != null && password.length() >= 6) {
             this.password = password;
         } else {

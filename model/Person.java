@@ -5,12 +5,14 @@ public class Person {
     private String name;
     private String email;
     private String phoneNumber;
+    private String password;
 
-    public Person(int id, String name, String email, String phoneNumber) {
+    public Person(int id, String name, String email, String phoneNumber, String password) {
         this.id = id;
         setName(name);
         setEmail(email);
         setPhoneNumber(phoneNumber);
+        setPassword(password);
     }
 
     public int getId() {
@@ -56,5 +58,13 @@ public class Person {
             System.out.println("Please enter a valid 10-digit phone number");
             this.phoneNumber = "0000000000";
         }
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

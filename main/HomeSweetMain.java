@@ -16,7 +16,7 @@ import model.PaymentService;
 public class HomeSweetMain {
     public static void main(String[] args) {
         //create Admin
-        Admin a1 = new Admin("John Doe", "johndoe@gmail.com", "password123!");
+        Admin a1 = new Admin("John Doe", "johndoe@gmail.com", "password123!", null);
 
         // Create Landlords
         Landlord l1 = new Landlord("Elizabeth", "1234567890", "abc123@gmail.com", "Phnom Penh", "welkimoon123456",
@@ -80,5 +80,12 @@ public class HomeSweetMain {
         s1.viewContracts();
         l1.LandlordViewProperties();
         c1.viewDetails();
+
+        // Admin doing things
+        a1.verifyLandlord(l1);
+        a1.viewAllStudents(studentService);
+        a1.viewAllLandlords(landlordService);
+        a1.viewAllHouses(houseService);
+        a1.viewAllContracts(contractService);
     }
 }
