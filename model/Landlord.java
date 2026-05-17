@@ -7,7 +7,6 @@ import interfaces.Displayable;
 public class Landlord extends Person implements Displayable {
     private static int idCounter = 1;
     private String address;
-    private String password;
     private String nationalID;
     private boolean isVerified;
     private boolean isActive;
@@ -27,10 +26,6 @@ public class Landlord extends Person implements Displayable {
 
     public String getAddress() {
         return address;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public String getNationalID() {
@@ -77,9 +72,10 @@ public class Landlord extends Person implements Displayable {
         }
     }
 
+    @Override
     public void setPassword(String password) {
         if (password != null && password.length() >= 6) {
-            this.password = password;
+            super.setPassword(password);
         } else {
             System.out.println("Password must be at least 6 characters long.");
         }
@@ -116,7 +112,7 @@ public class Landlord extends Person implements Displayable {
     @Override
     public String toString() {
         return "Landlord [id=" + getId() + ", name=" + getName() + ", phone=" + getPhoneNumber() + ", email=" + getEmail() +
-                ", address=" + address + ", password=" + password + ", nationalID=" + nationalID +
+                ", address=" + address + ", password=" + getPassword() + ", nationalID=" + nationalID +
                 ", isVerified=" + isVerified + ", isActive=" + isActive + "]";
     }
 

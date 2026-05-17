@@ -6,7 +6,6 @@ import interfaces.Displayable;
 
 public class Student extends Person implements Displayable {
     private static int idCounter = 1;
-    private String password;
     private ArrayList<Contract> contracts = new ArrayList<>();
     private String nationalId;
 
@@ -21,10 +20,6 @@ public class Student extends Person implements Displayable {
 
     // Inherits getters for id, name, email, phoneNumber from Person
 
-    public String getPassword() {
-        return password;
-    }
-
     public ArrayList<Contract> getContracts() {
         return contracts;
     }
@@ -37,9 +32,9 @@ public class Student extends Person implements Displayable {
 
     public void setPassword(String password) {
         if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
-            this.password = password;
+            super.setPassword(password);
         } else {
-            this.password = "SecurityError123!";
+            super.setPassword("SecurityError123!");
         }
     }
 

@@ -3,7 +3,6 @@ package main;
 import model.Admin;
 import model.House;
 import model.Landlord;
-import model.Payment;
 import model.RentalService;
 import model.Student;
 import model.Contract;

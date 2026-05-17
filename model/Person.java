@@ -5,7 +5,7 @@ public class Person {
     private String name;
     private String email;
     private String phoneNumber;
-    private String password;
+    protected String password;
 
     public Person(int id, String name, String email, String phoneNumber, String password) {
         this.id = id;
