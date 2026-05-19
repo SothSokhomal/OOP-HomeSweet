@@ -19,7 +19,7 @@ public class Student extends Person implements Displayable {
     }
 
     // Inherits getters for id, name, email, phoneNumber from Person
-
+    
     public ArrayList<Contract> getContracts() {
         return contracts;
     }
