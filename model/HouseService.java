@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import interfaces.Searchable;
-
-public class HouseService implements Searchable<House> {
+public class HouseService {
     private List<House> houses = new ArrayList<>();
 
     public void addHouse(House h) {
@@ -18,7 +16,6 @@ public class HouseService implements Searchable<House> {
         }
     }
 
-    @Override
     public List<House> search(String keyword) {
         List<House> results = new ArrayList<>();
         for (House h : houses) {
@@ -30,7 +27,6 @@ public class HouseService implements Searchable<House> {
         return results;
     }
 
-    @Override
     public House findById(int id) {
         for (House h : houses) {
             if (h.getId() == id) {

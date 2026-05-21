@@ -1,11 +1,9 @@
 package model;
 
 import java.util.ArrayList;
-
 import interfaces.Displayable;
 
 public class Landlord extends Person implements Displayable {
-    private static int idCounter = 1;
     private String address;
     private String nationalID;
     private boolean isVerified;
@@ -13,16 +11,19 @@ public class Landlord extends Person implements Displayable {
 
     private ArrayList<House> houses = new ArrayList<>();
 
+    private static int landlordCount = 0;
+
     public Landlord(String name, String phone, String email, String address, String password, String nationalID,
             boolean isVerified, boolean isActive) {
-        super(idCounter++, name, email, phone, password);
-        this.setAddress(address);
-        this.setNationalID(nationalID);
-        this.setVerified(isVerified);
-        this.setActive(isActive);
+        super(name, email, phone, password);
+        setAddress(address);
+        setNationalID(nationalID);
+        this.isVerified = isVerified;
+        this.isActive = isActive;
+        landlordCount++;
     }
 
-    // Inherits getId, getName, getPhoneNumber, getEmail from Person
+    // Inherits getId, getName, getEmail, getPhoneNumber from Person
 
     public String getAddress() {
         return address;
@@ -40,27 +41,19 @@ public class Landlord extends Person implements Displayable {
         return isActive;
     }
 
-    public void addHouse(House h) {
-        if (!houses.contains(h)) {
-            houses.add(h);
-        }
-    }
-
-    // Inherits setName, setPhoneNumber, setEmail from Person
-
     public void setAddress(String address) {
         if (address != null && !address.trim().isEmpty()) {
-            this.address = address;
+            this.address = address.trim();
         } else {
             this.address = "Unknown Address";
         }
     }
 
-    void setActive(boolean isActive) {
+    public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
 
-    private void setVerified(boolean isVerified) {
+    public void setVerified(boolean isVerified) {
         this.isVerified = isVerified;
     }
 
@@ -69,6 +62,7 @@ public class Landlord extends Person implements Displayable {
             this.nationalID = nationalID;
         } else {
             System.out.println("Please enter a valid 14-digit national ID");
+            this.nationalID = "00000000000000";
         }
     }
 
@@ -78,6 +72,12 @@ public class Landlord extends Person implements Displayable {
             super.setPassword(password);
         } else {
             System.out.println("Password must be at least 6 characters long.");
+        }
+    }
+
+    public void addHouse(House h) {
+        if (h != null && !houses.contains(h)) {
+            houses.add(h);
         }
     }
 
@@ -109,15 +109,27 @@ public class Landlord extends Person implements Displayable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Landlord [id=" + getId() + ", name=" + getName() + ", phone=" + getPhoneNumber() + ", email=" + getEmail() +
-                ", address=" + address + ", password=" + getPassword() + ", nationalID=" + nationalID +
-                ", isVerified=" + isVerified + ", isActive=" + isActive + "]";
+    public static int getLandlordCount() {
+        return landlordCount;
     }
 
     @Override
     public void displayInfo() {
-        System.out.println(this.toString());
+        System.out.println("Landlord ID  : " + getId());
+        System.out.println("Name         : " + getName());
+        System.out.println("Email        : " + getEmail());
+        System.out.println("Phone Number : " + getPhoneNumber());
+        System.out.println("Address      : " + address);
+        System.out.println("National ID  : " + nationalID);
+        System.out.println("Verified     : " + isVerified);
+        System.out.println("Active       : " + isActive);
+        System.out.println("Total Houses : " + houses.size());
+    }
+
+    @Override
+    public String toString() {
+        return "Landlord [id=" + getId() + ", name=" + getName() + ", phone=" + getPhoneNumber()
+                + ", email=" + getEmail() + ", address=" + address + ", nationalID=" + nationalID
+                + ", isVerified=" + isVerified + ", isActive=" + isActive + "]";
     }
 }

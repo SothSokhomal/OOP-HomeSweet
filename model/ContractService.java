@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import interfaces.Searchable;
-
-public class ContractService implements Searchable<Contract> {
+public class ContractService {
     private List<Contract> contracts = new ArrayList<>();
 
     public void addContract(Contract c) {
@@ -18,7 +16,6 @@ public class ContractService implements Searchable<Contract> {
         }
     }
 
-    @Override
     public List<Contract> search(String keyword) {
         List<Contract> results = new ArrayList<>();
         for (Contract c : contracts) {
@@ -29,7 +26,6 @@ public class ContractService implements Searchable<Contract> {
         return results;
     }
 
-    @Override
     public Contract findById(int id) {
         for (Contract c : contracts) {
             if (c.getId() == id) {

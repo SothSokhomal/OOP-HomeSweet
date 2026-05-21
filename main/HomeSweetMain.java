@@ -14,23 +14,23 @@ import model.PaymentService;
 
 public class HomeSweetMain {
     public static void main(String[] args) {
-        //create Admin
-        Admin a1 = new Admin("John Doe", "johndoe@gmail.com", "password123!", null);
+        // Create Admin
+        Admin a1 = new Admin("John Doe", "johndoe@gmail.com", "0000000000", "password123!");
 
-        // Create Landlords
-        Landlord l1 = new Landlord("Elizabeth", "1234567890", "abc123@gmail.com", "Phnom Penh", "welkimoon123456",
-                "1432763289123083", true, true);
+        // Create Landlord
+        Landlord l1 = new Landlord("Elizabeth", "1234567890", "abc123@gmail.com", "Phnom Penh",
+                "welkimoon123456", "14327632891230", true, true);
 
-        // Create Students
-        Student s1 = new Student("Jane Smith", "janesmith@gmail.com", "9876543210", "studentpassword@", null,
-                "12345678901234");
+        // Create Student
+        Student s1 = new Student("Jane Smith", "janesmith@gmail.com", "9876543210",
+                "studentpassword@", "12345678901234");
 
         // Create Houses
         House h1 = new House("123 Main St", l1, true, "Phnom Penh", 500.00);
         House h2 = new House("456 Oak Ave", l1, true, "Phnom Penh", 600.00);
         House h3 = new House("789 Pine Rd", l1, true, "Phnom Penh", 550.00);
 
-        // Store houses in Landlord lists
+        // Register houses in Landlord
         l1.addHouse(h1);
         l1.addHouse(h2);
         l1.addHouse(h3);
@@ -45,7 +45,6 @@ public class HomeSweetMain {
         // Register data into Services
         landlordService.addLandlord(l1);
         studentService.addStudent(s1);
-
         houseService.addHouse(h1);
         houseService.addHouse(h2);
         houseService.addHouse(h3);
@@ -71,20 +70,47 @@ public class HomeSweetMain {
         contractService.viewContracts();
         paymentService.viewAllPayments();
 
-        // Landlord adds their properties
-        l1.addProperty(h1);
-
-        // classes displaying it's own related data
+        // Classes displaying their own related data
         System.out.println("\n--- CLASSES DISPLAYING THEIR OWN RELATED DATA ---");
         s1.viewContracts();
         l1.LandlordViewProperties();
         c1.viewDetails();
 
-        // Admin doing things
+        // Admin actions
         a1.verifyLandlord(l1);
-        a1.viewAllStudents(studentService);
-        a1.viewAllLandlords(landlordService);
-        a1.viewAllHouses(houseService);
-        a1.viewAllContracts(contractService);
+
+        // Add objects to Admin to manage
+        a1.addStudent(s1);
+        a1.addLandlord(l1);
+        a1.addHouse(h1);
+        a1.addHouse(h2);
+        a1.addHouse(h3);
+        a1.addContract(c1);
+        for (model.Payment p : paymentService.getPayments()) {
+            a1.addPayment(p);
+        }
+
+        a1.displayAllStudents();
+        a1.displayAllLandlords();
+        a1.displayAllHouses();
+        a1.displayAllContracts();
+        a1.displayAllPayments();
+
+        // Search demo
+        System.out.println("\n--- SEARCH DEMO ---");
+        Student found = a1.findStudentById(s1.getId());
+        System.out.println("findStudentById(" + s1.getId() + "): " + (found != null ? found.getName() : "Not found"));
+        House foundHouse = a1.findHouseById(h1.getId());
+        System.out.println("findHouseById(" + h1.getId() + "): " + (foundHouse != null ? foundHouse.getAddress() : "Not found"));
+
+        a1.displayInfo();
+
+        // Static counters
+        System.out.println("\n--- OBJECT COUNTERS ---");
+        System.out.println("Total Students : " + Student.getStudentCount());
+        System.out.println("Total Landlords: " + Landlord.getLandlordCount());
+        System.out.println("Total Houses   : " + House.getHouseCount());
+        System.out.println("Total Contracts: " + Contract.getContractCount());
+        System.out.println("Total Payments : " + model.Payment.getPaymentCount());
     }
 }

@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import interfaces.Searchable;
-
-public class StudentService implements Searchable<Student> {
+public class StudentService {
     private List<Student> students = new ArrayList<>();
 
     public void addStudent(Student s) {
@@ -18,7 +16,6 @@ public class StudentService implements Searchable<Student> {
         }
     }
 
-    @Override
     public List<Student> search(String keyword) {
         List<Student> results = new ArrayList<>();
         for (Student s : students) {
@@ -29,7 +26,6 @@ public class StudentService implements Searchable<Student> {
         return results;
     }
 
-    @Override
     public Student findById(int id) {
         for (Student s : students) {
             if (s.getId() == id) {

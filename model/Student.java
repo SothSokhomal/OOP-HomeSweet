@@ -1,25 +1,22 @@
 package model;
 
 import java.util.ArrayList;
-
 import interfaces.Displayable;
 
 public class Student extends Person implements Displayable {
-    private static int idCounter = 1;
     private ArrayList<Contract> contracts = new ArrayList<>();
     private String nationalId;
 
-    public Student(String name, String email, String phonNumber, String password, Contract contract,
-            String nationalId) {
-        super(idCounter++, name, email, phonNumber, password);
-        if (contract != null) {
-            this.contracts.add(contract);
-        }
-        this.nationalId = nationalId;
+    private static int studentCount = 0;
+
+    public Student(String name, String email, String phoneNumber, String password, String nationalId) {
+        super(name, email, phoneNumber, password);
+        setNationalId(nationalId);
+        studentCount++;
     }
 
-    // Inherits getters for id, name, email, phoneNumber from Person
-    
+    // Inherits getId, getName, getEmail, getPhoneNumber, getPassword from Person
+
     public ArrayList<Contract> getContracts() {
         return contracts;
     }
@@ -28,8 +25,7 @@ public class Student extends Person implements Displayable {
         return nationalId;
     }
 
-    // Inherits setters for id, name, email, phoneNumber from Person
-
+    @Override
     public void setPassword(String password) {
         if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
             super.setPassword(password);
@@ -39,8 +35,8 @@ public class Student extends Person implements Displayable {
     }
 
     public void setContract(Contract contract) {
-        if (contract != null) {
-            this.contracts.add(contract);
+        if (contract != null && !contracts.contains(contract)) {
+            contracts.add(contract);
         }
     }
 
@@ -49,6 +45,7 @@ public class Student extends Person implements Displayable {
             this.nationalId = nationalId;
         } else {
             System.out.println("Please enter a valid 14-digit national ID");
+            this.nationalId = "00000000000000";
         }
     }
 
@@ -62,13 +59,22 @@ public class Student extends Person implements Displayable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Student [id=" + getId() + ", name=" + getName() + ", numContracts=" + contracts.size() + "]";
+    public static int getStudentCount() {
+        return studentCount;
     }
 
     @Override
     public void displayInfo() {
-        System.out.println(this.toString());
+        System.out.println("Student ID   : " + getId());
+        System.out.println("Name         : " + getName());
+        System.out.println("Email        : " + getEmail());
+        System.out.println("Phone Number : " + getPhoneNumber());
+        System.out.println("National ID  : " + nationalId);
+        System.out.println("Contracts    : " + contracts.size());
+    }
+
+    @Override
+    public String toString() {
+        return "Student [id=" + getId() + ", name=" + getName() + ", numContracts=" + contracts.size() + "]";
     }
 }

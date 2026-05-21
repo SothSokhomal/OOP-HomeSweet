@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import interfaces.Searchable;
-
-public class PaymentService implements Searchable<Payment> {
+public class PaymentService {
     private List<Payment> payments = new ArrayList<>();
 
     public void addPayment(Payment p) {
@@ -22,7 +20,6 @@ public class PaymentService implements Searchable<Payment> {
         }
     }
 
-    @Override
     public List<Payment> search(String keyword) {
         List<Payment> results = new ArrayList<>();
         for (Payment p : payments) {
@@ -33,7 +30,6 @@ public class PaymentService implements Searchable<Payment> {
         return results;
     }
 
-    @Override
     public Payment findById(int id) {
         for (Payment p : payments) {
             if (p.getId() == id) {

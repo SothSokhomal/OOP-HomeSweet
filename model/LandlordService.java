@@ -2,9 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import interfaces.Searchable;
-
-public class LandlordService implements Searchable<Landlord> {
+public class LandlordService {
     private List<Landlord> landlords = new ArrayList<>();
 
     public void addLandlord(Landlord l) {
@@ -18,7 +16,6 @@ public class LandlordService implements Searchable<Landlord> {
         }
     }
 
-    @Override
     public List<Landlord> search(String keyword) {
         List<Landlord> results = new ArrayList<>();
         for (Landlord l : landlords) {
@@ -29,7 +26,6 @@ public class LandlordService implements Searchable<Landlord> {
         return results;
     }
 
-    @Override
     public Landlord findById(int id) {
         for (Landlord l : landlords) {
             if (l.getId() == id) {

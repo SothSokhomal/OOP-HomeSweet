@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RentalService {
@@ -17,12 +16,13 @@ public class RentalService {
     }
 
     public void processRental(Student student, House house, Contract contract, List<Payment> payments) {
-
         if (house.isAvailable()) {
             student.setContract(contract);
-            house.setAvailable(false);
+            house.markUnavailable();
 
-            payments.add(new Payment(contract, house.getRentPrice(), PaymentStatus.UNPAID.name()));
+            Payment payment = new Payment(contract, house.getRentPrice(), PaymentStatus.PENDING.name());
+            payment.processPayment(); // Process payment immediately — activates contract
+            payments.add(payment);
 
             System.out.println("Rental Processed for: " + student.getName() + ", at house: " + house.getAddress());
         } else {

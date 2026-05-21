@@ -1,13 +1,13 @@
 package model;
 public enum PaymentStatus {
-    PAID, UNPAID, PENDING;
+    PENDING, PAID, FAILED;
 
     public static PaymentStatus fromString(String status) {
-        if (status == null) return UNPAID; 
+        if (status == null) return PENDING; 
         try {
             return valueOf(status.trim().toUpperCase());
         } catch (IllegalArgumentException e) {
-            return UNPAID; 
+            return PENDING; 
         }
     }
 }

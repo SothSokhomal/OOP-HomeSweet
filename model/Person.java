@@ -1,14 +1,17 @@
 package model;
 
-public class Person {
+import interfaces.Displayable;
+
+public class Person implements Displayable {
+    private static int nextId = 1;
     private int id;
-    private String name;
-    private String email;
-    private String phoneNumber;
+    protected String name;
+    protected String email;
+    protected String phoneNumber;
     protected String password;
 
-    public Person(int id, String name, String email, String phoneNumber, String password) {
-        this.id = id;
+    public Person(String name, String email, String phoneNumber, String password) {
+        this.id = nextId++;
         setName(name);
         setEmail(email);
         setPhoneNumber(phoneNumber);
@@ -19,19 +22,15 @@ public class Person {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         if (name != null && !name.trim().isEmpty()) {
-            this.name = name;
+            this.name = name.trim();
         } else {
-            this.name = "Default Name";
+            this.name = "Unknown Name";
         }
     }
 
@@ -66,5 +65,10 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("ID: " + id + " | Name: " + name);
     }
 }

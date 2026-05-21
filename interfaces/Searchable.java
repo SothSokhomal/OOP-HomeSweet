@@ -1,8 +1,15 @@
 package interfaces;
 
-import java.util.List;
+import model.Student;
+import model.Landlord;
+import model.House;
+import model.Contract;
+import model.Payment;
 
-public interface Searchable<T> {
-    List<T> search(String keyword);
-    T findById(int id);
+public interface Searchable {
+    Student findStudentById(int id);
+    Landlord findLandlordById(int id);
+    House findHouseById(int id);
+    Contract findContractById(int id);
+    Payment findPaymentById(int id);
 }

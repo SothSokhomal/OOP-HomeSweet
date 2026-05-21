@@ -2,29 +2,31 @@ package model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-
 import interfaces.Displayable;
 import interfaces.StatusManageable;
 
 public class Contract implements Displayable, StatusManageable {
-    private static int idCounter = 1;
+    private static int nextContractId = 1;
     private int id;
     private Student student;
     private House house;
     private LocalDate startDate;
     private LocalDate endDate;
-    private double rentPrice;
+    private double contractValue;
     private ContractStatus status;
 
-    public Contract(String clientName, String startDateStr, String endDateStr, double rentPrice, String status,
+    private static int contractCount = 0;
+
+    public Contract(String clientName, String startDateStr, String endDateStr, double contractValue, String status,
             Student student, House house) {
-        this.id = idCounter++;
-        this.setStudent(student);
-        this.setHouse(house);
-        this.setStartDate(startDateStr);
-        this.setEndDate(endDateStr);
-        this.setRentPrice(rentPrice);
-        this.setContractStatus(status);
+        this.id = nextContractId++;
+        setStudent(student);
+        setHouse(house);
+        setStartDate(startDateStr);
+        setEndDate(endDateStr);
+        setContractValue(contractValue);
+        setContractStatus(status);
+        contractCount++;
     }
 
     public int getId() {
@@ -48,9 +50,14 @@ public class Contract implements Displayable, StatusManageable {
     }
 
     public double getContractValue() {
-        return rentPrice;
+        return contractValue;
     }
 
+    public ContractStatus getContractStatus() {
+        return status;
+    }
+
+    // Returns String for backward compatibility
     public String getStatus() {
         return status.name();
     }
@@ -80,7 +87,6 @@ public class Contract implements Displayable, StatusManageable {
                 this.startDate = LocalDate.now();
             }
         } else {
-            System.err.println("Invalid start date. Contract will not have a valid start date.");
             this.startDate = LocalDate.now();
         }
     }
@@ -94,16 +100,15 @@ public class Contract implements Displayable, StatusManageable {
                 this.endDate = LocalDate.now().plusYears(1);
             }
         } else {
-            System.err.println("Invalid end date. Contract will not have a valid end date.");
             this.endDate = LocalDate.now().plusYears(1);
         }
     }
 
-    private void setRentPrice(double rentPrice) {
-        if (rentPrice > 0) {
-            this.rentPrice = rentPrice;
+    public void setContractValue(double contractValue) {
+        if (contractValue >= 0) {
+            this.contractValue = contractValue;
         } else {
-            System.err.println("Invalid rent price. Contract will not have a valid rent price.");
+            this.contractValue = 0;
         }
     }
 
@@ -115,34 +120,74 @@ public class Contract implements Displayable, StatusManageable {
         }
     }
 
+    public boolean createContract() {
+        if (student == null || house == null || !house.isAvailable()) {
+            return false;
+        }
+        house.markUnavailable();
+        student.setContract(this);
+        this.status = ContractStatus.PENDING;
+        System.out.println("Contract " + id + " created successfully.");
+        return true;
+    }
+
+    public void activateContract() {
+        if (status != ContractStatus.CANCELLED && status != ContractStatus.EXPIRED) {
+            this.status = ContractStatus.ACTIVE;
+        }
+    }
+
+    public void cancelContract() {
+        this.status = ContractStatus.CANCELLED;
+        if (house != null) house.markAvailable();
+    }
+
+    public void expireContract() {
+        this.status = ContractStatus.EXPIRED;
+        if (house != null) house.markAvailable();
+    }
+
     public void viewDetails() {
         System.out.println("\n--- Contract Details ---");
-        System.out.println("Contract ID : " + id);
-        System.out.println("Student     : " + student.getName());
-        System.out.println("House       : " + house.getAddress() + ", " + house.getCity());
-        System.out.println("Period      : " + startDate + " to " + endDate);
-        System.out.println("Rent Price  : $" + rentPrice);
-        System.out.println("Status      : " + status.name());
+        System.out.println("Contract ID  : " + id);
+        System.out.println("Student      : " + (student != null ? student.getName() : "N/A"));
+        System.out.println("House        : " + (house != null ? house.getAddress() + ", " + house.getCity() : "N/A"));
+        System.out.println("Period       : " + startDate + " to " + endDate);
+        System.out.println("Rent Price   : $" + contractValue);
+        System.out.println("Status       : " + status.name());
+    }
+
+    public static int getContractCount() {
+        return contractCount;
     }
 
     @Override
-    public String toString() {
-        return "Contract [ID=" + id + ", Student=" + student.getName() + ", House=" + house.getAddress() + ", Status="
-                + status.name() + "]";
+    public String getStatusText() {
+        return status.name();
+    }
+
+    @Override
+    public void displayStatus() {
+        System.out.println("Contract Status: " + status.name());
     }
 
     @Override
     public void displayInfo() {
-        System.out.println(this.toString());
+        System.out.println("Contract ID  : " + id);
+        System.out.println("Student      : " + (student != null ? student.getName() : "N/A"));
+        System.out.println("House        : " + (house != null ? house.getAddress() : "N/A"));
+        System.out.println("Period       : " + startDate + " to " + endDate);
+        System.out.println("Value        : $" + contractValue);
+        System.out.println("Status       : " + status.name());
+        if (house != null && house.getLandlord() != null) {
+            System.out.println("Landlord     : " + house.getLandlord().getName());
+        }
     }
 
     @Override
-    public void updateStatus(String status) {
-        setContractStatus(status);
-    }
-
-    @Override
-    public String getCurrentStatus() {
-        return getStatus();
+    public String toString() {
+        return "Contract [ID=" + id + ", Student=" + (student != null ? student.getName() : "N/A")
+                + ", House=" + (house != null ? house.getAddress() : "N/A")
+                + ", Status=" + status.name() + "]";
     }
 }
