@@ -1,9 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import interfaces.Displayable;
 
-public class Landlord extends Person implements Displayable {
+public class Landlord extends Person {
     private String address;
     private String nationalID;
     private boolean isVerified;

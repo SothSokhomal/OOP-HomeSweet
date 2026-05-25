@@ -1,9 +1,8 @@
 package model;
 
 import java.util.ArrayList;
-import interfaces.Displayable;
 
-public class Student extends Person implements Displayable {
+public class Student extends Person {
     private ArrayList<Contract> contracts = new ArrayList<>();
     private String nationalId;
 

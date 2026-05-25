@@ -12,7 +12,6 @@ import model.House;
 import model.HouseService;
 import model.Landlord;
 import model.LandlordService;
-import model.Payment;
 import model.PaymentService;
 import model.Person;
 import model.RentalService;
