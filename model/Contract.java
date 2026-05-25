@@ -120,17 +120,6 @@ public class Contract implements Displayable, StatusManageable {
         }
     }
 
-    public boolean createContract() {
-        if (student == null || house == null || !house.isAvailable()) {
-            return false;
-        }
-        house.markUnavailable();
-        student.setContract(this);
-        this.status = ContractStatus.PENDING;
-        System.out.println("Contract " + id + " created successfully.");
-        return true;
-    }
-
     public void activateContract() {
         if (status != ContractStatus.CANCELLED && status != ContractStatus.EXPIRED) {
             this.status = ContractStatus.ACTIVE;
