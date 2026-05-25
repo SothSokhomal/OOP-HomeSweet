@@ -1,6 +1,7 @@
 package main;
 
 import java.util.Scanner;
+import java.util.List;
 
 import model.Admin;
 import model.AdminService;
@@ -11,6 +12,7 @@ import model.House;
 import model.HouseService;
 import model.Landlord;
 import model.LandlordService;
+import model.Payment;
 import model.PaymentService;
 import model.Person;
 import model.RentalService;
@@ -56,6 +58,8 @@ public class HomeSweetMain {
         }
     }
 
+    // ==================== REGISTER ====================
+
     private static void registerMenu() {
         System.out.println("\n--- Register ---");
         System.out.println("1. Admin");
@@ -95,12 +99,14 @@ public class HomeSweetMain {
                 String landlordNationalId = scanner.nextLine();
                 Landlord landlord = new Landlord(name, username, phone, email, address, password, landlordNationalId, false, true);
                 landlordService.addLandlord(landlord);
-                System.out.println("Landlord registered successfully.");
+                System.out.println("Landlord registered successfully. Awaiting admin verification.");
                 break;
             default:
                 System.out.println("Invalid role selected.");
         }
     }
+
+    // ==================== LOGIN ====================
 
     private static void loginMenu() {
         System.out.println("\n--- Login ---");
@@ -113,6 +119,7 @@ public class HomeSweetMain {
 
         if (user != null) {
             System.out.println("Login successful! Welcome, " + user.getName());
+            user.performRole();
             if (user instanceof Admin) {
                 adminMenu((Admin) user);
             } else if (user instanceof Student) {
@@ -125,14 +132,22 @@ public class HomeSweetMain {
         }
     }
 
+    // ==================== ADMIN MENU ====================
+
     private static void adminMenu(Admin admin) {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Admin Menu ===");
-            System.out.println("1. View All Students");
-            System.out.println("2. View All Landlords");
-            System.out.println("3. View All Houses");
-            System.out.println("4. Logout");
+            System.out.println("1.  View All Students");
+            System.out.println("2.  View All Landlords");
+            System.out.println("3.  View All Houses");
+            System.out.println("4.  View All Contracts");
+            System.out.println("5.  View All Payments");
+            System.out.println("6.  Verify a Landlord");
+            System.out.println("7.  Search Student by Name");
+            System.out.println("8.  Search House by Address/City");
+            System.out.println("9.  Admin Summary");
+            System.out.println("10. Logout");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
@@ -147,6 +162,49 @@ public class HomeSweetMain {
                     houseService.viewHouses();
                     break;
                 case "4":
+                    contractService.viewContracts();
+                    break;
+                case "5":
+                    paymentService.viewAllPayments();
+                    break;
+                case "6":
+                    System.out.print("Enter Landlord ID to verify: ");
+                    try {
+                        int lid = Integer.parseInt(scanner.nextLine());
+                        Landlord l = landlordService.findById(lid);
+                        if (l != null) {
+                            admin.verifyLandlord(l);
+                        } else {
+                            System.out.println("Landlord not found.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid ID.");
+                    }
+                    break;
+                case "7":
+                    System.out.print("Enter student name to search: ");
+                    String sKeyword = scanner.nextLine();
+                    List<Student> foundStudents = studentService.search(sKeyword);
+                    if (foundStudents.isEmpty()) {
+                        System.out.println("No students found.");
+                    } else {
+                        for (Student s : foundStudents) s.displayInfo();
+                    }
+                    break;
+                case "8":
+                    System.out.print("Enter address or city to search: ");
+                    String hKeyword = scanner.nextLine();
+                    List<House> foundHouses = houseService.search(hKeyword);
+                    if (foundHouses.isEmpty()) {
+                        System.out.println("No houses found.");
+                    } else {
+                        for (House h : foundHouses) h.displayInfo();
+                    }
+                    break;
+                case "9":
+                    admin.displayInfo();
+                    break;
+                case "10":
                     System.out.println("Logging out...");
                     inMenu = false;
                     break;
@@ -156,13 +214,17 @@ public class HomeSweetMain {
         }
     }
 
+    // ==================== STUDENT MENU ====================
+
     private static void studentMenu(Student student) {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Student Menu ===");
             System.out.println("1. View Available Houses");
-            System.out.println("2. View My Contracts");
-            System.out.println("3. Logout");
+            System.out.println("2. Book a House");
+            System.out.println("3. Pay Bill");
+            System.out.println("4. View My Contracts");
+            System.out.println("5. Logout");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
@@ -171,9 +233,51 @@ public class HomeSweetMain {
                     houseService.viewHouses();
                     break;
                 case "2":
-                    student.viewContracts();
+                    System.out.print("Enter House ID to book: ");
+                    try {
+                        int hid = Integer.parseInt(scanner.nextLine());
+                        House house = houseService.findById(hid);
+                        if (house == null) {
+                            System.out.println("House not found.");
+                            break;
+                        }
+                        if (!house.isAvailable()) {
+                            System.out.println("Sorry, that house is not available.");
+                            break;
+                        }
+                        System.out.print("Enter start date (YYYY-MM-DD): ");
+                        String start = scanner.nextLine();
+                        System.out.print("Enter end date (YYYY-MM-DD): ");
+                        String end = scanner.nextLine();
+
+                        student.bookHouse(house);
+
+                        // RentalService handles contract creation, payment, and linking
+                        Contract contract = rentalService.createContract(student, house, start, end);
+                        rentalService.processRental(student, house, contract, paymentService.getPayments());
+
+                        // Save contract to contractService
+                        contractService.addContract(contract);
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid ID.");
+                    }
                     break;
                 case "3":
+                    System.out.print("Enter amount to pay: ");
+                    try {
+                        double amount = Double.parseDouble(scanner.nextLine());
+                        System.out.print("Enter payment method (e.g. Cash, Card): ");
+                        String method = scanner.nextLine();
+                        student.payBill(amount, method);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid amount.");
+                    }
+                    break;
+                case "4":
+                    student.viewContracts();
+                    break;
+                case "5":
                     System.out.println("Logging out...");
                     inMenu = false;
                     break;
@@ -183,13 +287,17 @@ public class HomeSweetMain {
         }
     }
 
+    // ==================== LANDLORD MENU ====================
+
     private static void landlordMenu(Landlord landlord) {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Landlord Menu ===");
             System.out.println("1. View My Properties");
             System.out.println("2. Add Property");
-            System.out.println("3. Logout");
+            System.out.println("3. Generate General Report");
+            System.out.println("4. Generate Monthly Report");
+            System.out.println("5. Logout");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
@@ -200,14 +308,28 @@ public class HomeSweetMain {
                 case "2":
                     System.out.print("Enter property address: ");
                     String addr = scanner.nextLine();
-                    System.out.print("Enter property price: ");
-                    double price = Double.parseDouble(scanner.nextLine());
-                    House newHouse = new House(addr, landlord, true, "Unknown", price);
-                    landlord.addProperty(newHouse);
-                    houseService.addHouse(newHouse);
-                    System.out.println("Property added.");
+                    System.out.print("Enter city: ");
+                    String city = scanner.nextLine();
+                    System.out.print("Enter monthly rent price: ");
+                    try {
+                        double price = Double.parseDouble(scanner.nextLine());
+                        House newHouse = new House(addr, landlord, true, city, price);
+                        landlord.addProperty(newHouse);
+                        houseService.addHouse(newHouse);
+                        System.out.println("Property added successfully.");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid price.");
+                    }
                     break;
                 case "3":
+                    landlord.generateReport();
+                    break;
+                case "4":
+                    System.out.print("Enter month (e.g. January): ");
+                    String month = scanner.nextLine();
+                    landlord.generateReport(month);
+                    break;
+                case "5":
                     System.out.println("Logging out...");
                     inMenu = false;
                     break;
@@ -217,13 +339,14 @@ public class HomeSweetMain {
         }
     }
 
+    // ==================== SEED DATA ====================
+
     private static void seedData() {
-        // Seed some initial data for testing
         Admin a1 = new Admin("John Admin", "admin1", "admin@gmail.com", "0000000000", "adminpass!");
         adminService.addAdmin(a1);
 
-        Landlord l1 = new Landlord("Elizabeth Landlord", "landlord1", "1234567890", "landlord@gmail.com", "Phnom Penh",
-                "landlordpass123", "14327632891230", true, true);
+        Landlord l1 = new Landlord("Elizabeth Landlord", "landlord1", "1234567890", "landlord@gmail.com",
+                "Phnom Penh", "landlordpass123", "14327632891230", true, true);
         landlordService.addLandlord(l1);
 
         Student s1 = new Student("Jane Student", "student1", "student@gmail.com", "9876543210",
@@ -232,10 +355,15 @@ public class HomeSweetMain {
 
         House h1 = new House("123 Main St", l1, true, "Phnom Penh", 500.00);
         House h2 = new House("456 Oak Ave", l1, true, "Phnom Penh", 600.00);
-        
         l1.addProperty(h1);
         l1.addProperty(h2);
         houseService.addHouse(h1);
         houseService.addHouse(h2);
+
+        // Link seed data into admin's own lists so admin.displayInfo() shows correct counts
+        a1.addStudent(s1);
+        a1.addLandlord(l1);
+        a1.addHouse(h1);
+        a1.addHouse(h2);
     }
 }
