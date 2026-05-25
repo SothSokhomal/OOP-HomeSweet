@@ -6,16 +6,30 @@ public class Person implements Displayable {
     private static int nextId = 1;
     private int id;
     protected String name;
+    protected String username;
     protected String email;
     protected String phoneNumber;
     protected String password;
 
-    public Person(String name, String email, String phoneNumber, String password) {
+    public Person(String name, String username, String email, String phoneNumber, String password) {
         this.id = nextId++;
         setName(name);
+        setUsername(username);
         setEmail(email);
         setPhoneNumber(phoneNumber);
         setPassword(password);
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        if (username != null && !username.trim().isEmpty()) {
+            this.username = username.trim();
+        } else {
+            this.username = "UnknownUser";
+        }
     }
 
     public int getId() {
@@ -70,5 +84,9 @@ public class Person implements Displayable {
     @Override
     public void displayInfo() {
         System.out.println("ID: " + id + " | Name: " + name);
+    }
+
+    public void performRole() {
+        System.out.println(name + " is performing a general role.");
     }
 }

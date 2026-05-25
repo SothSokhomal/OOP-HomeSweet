@@ -13,9 +13,9 @@ public class Landlord extends Person implements Displayable {
 
     private static int landlordCount = 0;
 
-    public Landlord(String name, String phone, String email, String address, String password, String nationalID,
+    public Landlord(String name, String username, String phone, String email, String address, String password, String nationalID,
             boolean isVerified, boolean isActive) {
-        super(name, email, phone, password);
+        super(name, username, email, phone, password);
         setAddress(address);
         setNationalID(nationalID);
         this.isVerified = isVerified;
@@ -131,5 +131,26 @@ public class Landlord extends Person implements Displayable {
         return "Landlord [id=" + getId() + ", name=" + getName() + ", phone=" + getPhoneNumber()
                 + ", email=" + getEmail() + ", address=" + address + ", nationalID=" + nationalID
                 + ", isVerified=" + isVerified + ", isActive=" + isActive + "]";
+    }
+
+    @Override
+    public void performRole() {
+        System.out.println("Landlord " + getName() + " is adding properties and generating reports.");
+    }
+
+    // Overloaded method for addProperty
+    public void addProperty(String address, double price) {
+        House newHouse = new House(address, this, true, "Unknown", price);
+        addProperty(newHouse);
+        System.out.println("Landlord " + getName() + " added a new property at " + address + " with price $" + price);
+    }
+
+    // Overloaded methods for generateReport
+    public void generateReport() {
+        System.out.println("Landlord " + getName() + " generated a general property report.");
+    }
+
+    public void generateReport(String month) {
+        System.out.println("Landlord " + getName() + " generated a property report for the month of " + month + ".");
     }
 }

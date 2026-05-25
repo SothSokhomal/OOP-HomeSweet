@@ -9,8 +9,8 @@ public class Student extends Person implements Displayable {
 
     private static int studentCount = 0;
 
-    public Student(String name, String email, String phoneNumber, String password, String nationalId) {
-        super(name, email, phoneNumber, password);
+    public Student(String name, String username, String email, String phoneNumber, String password, String nationalId) {
+        super(name, username, email, phoneNumber, password);
         setNationalId(nationalId);
         studentCount++;
     }
@@ -30,6 +30,7 @@ public class Student extends Person implements Displayable {
         if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
             super.setPassword(password);
         } else {
+            System.out.println("Warning: Password must be at least 8 characters and contain a special character (!@#$%^&*()). Setting default password.");
             super.setPassword("SecurityError123!");
         }
     }
@@ -76,5 +77,37 @@ public class Student extends Person implements Displayable {
     @Override
     public String toString() {
         return "Student [id=" + getId() + ", name=" + getName() + ", numContracts=" + contracts.size() + "]";
+    }
+
+    @Override
+    public void performRole() {
+        System.out.println("Student " + getName() + " is viewing houses and managing bills.");
+    }
+
+    // Overloaded methods for viewHouses
+    public void viewHouses() {
+        System.out.println("Student " + getName() + " is viewing all available houses.");
+    }
+
+    public void viewHouses(String location) {
+        System.out.println("Student " + getName() + " is viewing houses located in: " + location);
+    }
+
+    // Overloaded methods for payBill
+    public void payBill(double amount) {
+        System.out.println("Student " + getName() + " paid $" + amount + " using default payment method.");
+    }
+
+    public void payBill(double amount, String paymentMethod) {
+        System.out.println("Student " + getName() + " paid $" + amount + " using " + paymentMethod + ".");
+    }
+
+    // Overloaded methods for bookHouse
+    public void bookHouse(House house) {
+        System.out.println("Student " + getName() + " booked House ID: " + house.getId() + " for a standard term.");
+    }
+
+    public void bookHouse(House house, int durationInMonths) {
+        System.out.println("Student " + getName() + " booked House ID: " + house.getId() + " for " + durationInMonths + " months.");
     }
 }

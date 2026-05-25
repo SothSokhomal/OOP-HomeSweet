@@ -13,8 +13,8 @@ public class Admin extends Person implements Searchable {
 
     private static int adminCount = 0;
 
-    public Admin(String name, String email, String phone, String password) {
-        super(name, email, phone, password);
+    public Admin(String name, String username, String email, String phone, String password) {
+        super(name, username, email, phone, password);
         adminCount++;
     }
 
@@ -181,5 +181,31 @@ public class Admin extends Person implements Searchable {
         System.out.println("Contracts    : " + contracts.size());
         System.out.println("Payments     : " + payments.size());
         System.out.println("===================================");
+    }
+
+    @Override
+    public void performRole() {
+        System.out.println("Admin " + getName() + " is managing the entire HomeSweet system.");
+    }
+
+    // Overloaded methods for manageRecord
+    public void manageRecord(Student student) {
+        System.out.println("Admin " + getName() + " is managing record for Student: " + student.getName());
+    }
+
+    public void manageRecord(Landlord landlord) {
+        System.out.println("Admin " + getName() + " is managing record for Landlord: " + landlord.getName());
+    }
+
+    public void manageRecord(House house) {
+        System.out.println("Admin " + getName() + " is managing record for House ID: " + house.getId());
+    }
+
+    public void manageRecord(Contract contract) {
+        System.out.println("Admin " + getName() + " is managing record for Contract ID: " + contract.getId());
+    }
+
+    public void manageRecord(Payment payment) {
+        System.out.println("Admin " + getName() + " is managing record for Payment ID: " + payment.getId());
     }
 }

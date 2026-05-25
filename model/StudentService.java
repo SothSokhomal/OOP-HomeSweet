@@ -34,4 +34,13 @@ public class StudentService {
         }
         return null;
     }
+
+    public Student findByUsername(String username) {
+        for (Student s : students) {
+            if (s.getUsername().equals(username)) {
+                return s;
+            }
+        }
+        return null;
+    }
 }

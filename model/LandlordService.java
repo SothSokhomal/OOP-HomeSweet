@@ -34,4 +34,13 @@ public class LandlordService {
         }
         return null;
     }
+
+    public Landlord findByUsername(String username) {
+        for (Landlord l : landlords) {
+            if (l.getUsername().equals(username)) {
+                return l;
+            }
+        }
+        return null;
+    }
 }
