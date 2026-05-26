@@ -171,10 +171,7 @@ public class Admin extends Person implements Searchable {
     @Override
     public void displayInfo() {
         System.out.println("\n========== Admin Summary ==========");
-        System.out.println("Admin ID     : " + getId());
-        System.out.println("Name         : " + getName());
-        System.out.println("Email        : " + getEmail());
-        System.out.println("Phone Number : " + getPhoneNumber());
+        super.displayInfo();
         System.out.println("Students     : " + students.size());
         System.out.println("Landlords    : " + landlords.size());
         System.out.println("Houses       : " + houses.size());

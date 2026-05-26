@@ -65,10 +65,7 @@ public class Student extends Person {
 
     @Override
     public void displayInfo() {
-        System.out.println("Student ID   : " + getId());
-        System.out.println("Name         : " + getName());
-        System.out.println("Email        : " + getEmail());
-        System.out.println("Phone Number : " + getPhoneNumber());
+        super.displayInfo();
         System.out.println("National ID  : " + nationalId);
         System.out.println("Contracts    : " + contracts.size());
     }

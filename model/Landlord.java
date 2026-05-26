@@ -114,10 +114,7 @@ public class Landlord extends Person {
 
     @Override
     public void displayInfo() {
-        System.out.println("Landlord ID  : " + getId());
-        System.out.println("Name         : " + getName());
-        System.out.println("Email        : " + getEmail());
-        System.out.println("Phone Number : " + getPhoneNumber());
+        super.displayInfo();
         System.out.println("Address      : " + address);
         System.out.println("National ID  : " + nationalID);
         System.out.println("Verified     : " + isVerified);

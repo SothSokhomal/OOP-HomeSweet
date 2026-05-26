@@ -173,6 +173,32 @@ public class Contract implements Displayable, StatusManageable {
         }
     }
 
+    public static Contract createContract(Student student, House house, String start, String end) {
+        return new Contract(
+                student.getName(),
+                start,
+                end,
+                house.getRentPrice(),
+                ContractStatus.PENDING.name(),
+                student,
+                house);
+    }
+
+    public static void processRental(Student student, House house, Contract contract, java.util.List<Payment> payments) {
+        if (house.isAvailable()) {
+            student.setContract(contract);
+            house.markUnavailable();
+
+            Payment payment = new Payment(contract, house.getRentPrice(), PaymentStatus.PENDING.name());
+            payment.processPayment(); // Process payment immediately — activates contract
+            payments.add(payment);
+
+            System.out.println("Rental Processed for: " + student.getName() + ", at house: " + house.getAddress());
+        } else {
+            System.out.println("House is NOT available!");
+        }
+    }
+
     @Override
     public String toString() {
         return "Contract [ID=" + id + ", Student=" + (student != null ? student.getName() : "N/A")

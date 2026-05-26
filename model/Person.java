@@ -83,7 +83,10 @@ public class Person implements Displayable {
 
     @Override
     public void displayInfo() {
-        System.out.println("ID: " + id + " | Name: " + name);
+        System.out.println("ID           : " + id);
+        System.out.println("Name         : " + name);
+        System.out.println("Email        : " + email);
+        System.out.println("Phone Number : " + phoneNumber);
     }
 
     public void performRole() {

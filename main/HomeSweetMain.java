@@ -14,7 +14,6 @@ import model.Landlord;
 import model.LandlordService;
 import model.PaymentService;
 import model.Person;
-import model.RentalService;
 import model.Student;
 import model.StudentService;
 
@@ -26,7 +25,6 @@ public class HomeSweetMain {
     private static HouseService houseService = new HouseService();
     private static ContractService contractService = new ContractService();
     private static PaymentService paymentService = new PaymentService();
-    private static RentalService rentalService = new RentalService();
 
     public static void main(String[] args) {
         seedData();
@@ -251,9 +249,9 @@ public class HomeSweetMain {
 
                         student.bookHouse(house);
 
-                        // RentalService handles contract creation, payment, and linking
-                        Contract contract = rentalService.createContract(student, house, start, end);
-                        rentalService.processRental(student, house, contract, paymentService.getPayments());
+                        // Contract handles contract creation, payment, and linking
+                        Contract contract = Contract.createContract(student, house, start, end);
+                        Contract.processRental(student, house, contract, paymentService.getPayments());
 
                         // Save contract to contractService
                         contractService.addContract(contract);
