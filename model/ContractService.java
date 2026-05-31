@@ -9,6 +9,10 @@ public class ContractService {
         contracts.add(c);
     }
 
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
     public void viewContracts() {
         System.out.println("\n--- Contract List ---");
         for (Contract c : contracts) {

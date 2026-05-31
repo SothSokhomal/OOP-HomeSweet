@@ -70,40 +70,46 @@ public class Student extends Person {
         System.out.println("Contracts    : " + contracts.size());
     }
 
-    @Override
-    public String toString() {
-        return "Student [id=" + getId() + ", name=" + getName() + ", numContracts=" + contracts.size() + "]";
-    }
-
+    // OVERRIDING: each subclass describes its own role
     @Override
     public void performRole() {
         System.out.println("Student " + getName() + " is viewing houses and managing bills.");
     }
 
+    // OVERRIDING: Student requires stronger password than Person default
+    // (already overridden above in setPassword)
+
     // Overloaded methods for viewHouses
-    public void viewHouses() {
+    public void viewHouses() { // view all houses
         System.out.println("Student " + getName() + " is viewing all available houses.");
     }
 
-    public void viewHouses(String location) {
+    public void viewHouses(String location) { // view houses filtered by location
         System.out.println("Student " + getName() + " is viewing houses located in: " + location);
     }
 
     // Overloaded methods for payBill
-    public void payBill(double amount) {
+    public void payBill(double amount) { // default payment method
         System.out.println("Student " + getName() + " paid $" + amount + " using default payment method.");
     }
 
-    public void payBill(double amount, String paymentMethod) {
+    public void payBill(double amount, String paymentMethod) { // payment with chosen method
         System.out.println("Student " + getName() + " paid $" + amount + " using " + paymentMethod + ".");
     }
 
     // Overloaded methods for bookHouse
-    public void bookHouse(House house) {
+    public void bookHouse(House house) { // quick booking with standard term
         System.out.println("Student " + getName() + " booked House ID: " + house.getId() + " for a standard term.");
     }
 
-    public void bookHouse(House house, int durationInMonths) {
-        System.out.println("Student " + getName() + " booked House ID: " + house.getId() + " for " + durationInMonths + " months.");
+    public void bookHouse(House house, String startDate, String endDate) { // booking with specific dates
+        System.out.println("Student " + getName() + " booked House ID: " + house.getId() + " from " + startDate + " to " + endDate + ".");
+    }
+
+    // Issue 1 fix: added toString() — consistent with all other model classes
+    @Override
+    public String toString() {
+        return "Student [id=" + getId() + ", name=" + getName() +
+               ", nationalId=" + nationalId + ", contracts=" + contracts.size() + "]";
     }
 }

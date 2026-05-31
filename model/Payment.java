@@ -10,6 +10,7 @@ public class Payment implements Displayable, Payable, StatusManageable {
     private Contract contract;
     private double amount;
     private PaymentStatus paymentStatus;
+    private String paymentMethod;
 
     private static int paymentCount = 0;
 
@@ -19,6 +20,7 @@ public class Payment implements Displayable, Payable, StatusManageable {
         setAmount(amount);
         this.paymentStatus = (paymentStatusStr == null) ? PaymentStatus.PENDING
                 : PaymentStatus.fromString(paymentStatusStr);
+        this.paymentMethod = "Default";
         paymentCount++;
     }
 
@@ -36,6 +38,10 @@ public class Payment implements Displayable, Payable, StatusManageable {
 
     public String getPaymentStatus() {
         return paymentStatus.name();
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
     public void setAmount(double amount) {
@@ -87,6 +93,16 @@ public class Payment implements Displayable, Payable, StatusManageable {
         return true;
     }
 
+    //overloaded method for processPayment
+    public boolean processPayment(String paymentMethod) {
+        if (paymentMethod != null && !paymentMethod.trim().isEmpty()) {
+            this.paymentMethod = paymentMethod.trim();
+        } else {
+            this.paymentMethod = "Default";
+        }
+        return processPayment(); // delegates all validation logic to base method
+    }
+
     public boolean isPaid() {
         return this.paymentStatus == PaymentStatus.PAID;
     }
@@ -109,6 +125,7 @@ public class Payment implements Displayable, Payable, StatusManageable {
     public void displayInfo() {
         System.out.println("Payment ID   : " + id);
         System.out.println("Amount       : $" + amount);
+        System.out.println("Payment Method: " + paymentMethod);
         System.out.println("Status       : " + paymentStatus.name());
         if (contract != null) {
             System.out.println("Contract ID  : " + contract.getId());
@@ -126,6 +143,7 @@ public class Payment implements Displayable, Payable, StatusManageable {
         return "Payment [id=" + id +
                 ", contract=" + (contract != null ? contract.getId() : "0") +
                 ", amount=$" + amount +
+                ", paymentMethod=" + paymentMethod +
                 ", paymentStatus=" + paymentStatus.name() + "]";
     }
 }

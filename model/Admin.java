@@ -99,9 +99,29 @@ public class Admin extends Person implements Searchable {
     }
 
     public void verifyLandlord(Landlord landlord) {
-        landlord.setActive(true);
-        landlord.setVerified(true);
-        System.out.println("Admin verified landlord: " + landlord.getName());
+        if (landlord != null) {
+            landlord.setActive(true);
+            landlord.setVerified(true);
+            System.out.println("Admin verified landlord: " + landlord.getName());
+        }
+    }
+
+    public void verifyLandlord(int landlordId, java.util.List<Landlord> allLandlords) {
+        // First look in admin's own tracked list, then fall back to the full registry
+        Landlord landlord = findLandlordById(landlordId);
+        if (landlord == null && allLandlords != null) {
+            for (Landlord l : allLandlords) {
+                if (l.getId() == landlordId) {
+                    landlord = l;
+                    break;
+                }
+            }
+        }
+        if (landlord != null) {
+            verifyLandlord(landlord);
+        } else {
+            System.out.println("Landlord with ID " + landlordId + " not found.");
+        }
     }
 
     public void displayAllStudents() {

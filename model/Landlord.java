@@ -74,12 +74,6 @@ public class Landlord extends Person {
         }
     }
 
-    public void addHouse(House h) {
-        if (h != null && !houses.contains(h)) {
-            houses.add(h);
-        }
-    }
-
     public void addProperty(House house) {
         if (!houses.contains(house)) {
             house.setLandlord(this);
@@ -98,7 +92,7 @@ public class Landlord extends Person {
         return houses.size();
     }
 
-    public void LandlordViewProperties() {
+    public void viewProperties() {
         System.out.println("\n--- Properties for: " + getName() + " ---");
         if (houses.isEmpty()) {
             System.out.println("No properties found.");
@@ -134,11 +128,10 @@ public class Landlord extends Person {
         System.out.println("Landlord " + getName() + " is adding properties and generating reports.");
     }
 
-    // Overloaded method for addProperty
-    public void addProperty(String address, double price) {
-        House newHouse = new House(address, this, true, "Unknown", price);
+    public void addProperty(String address, String city, double price) {
+        House newHouse = new House(address, this, true, city, price);
         addProperty(newHouse);
-        System.out.println("Landlord " + getName() + " added a new property at " + address + " with price $" + price);
+        System.out.println("Landlord " + getName() + " added a new property at " + address + ", " + city + " with price $" + price);
     }
 
     // Overloaded methods for generateReport

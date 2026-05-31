@@ -12,7 +12,9 @@ import model.House;
 import model.HouseService;
 import model.Landlord;
 import model.LandlordService;
+import model.Payment;
 import model.PaymentService;
+import model.PaymentStatus;
 import model.Person;
 import model.Student;
 import model.StudentService;
@@ -168,12 +170,7 @@ public class HomeSweetMain {
                     System.out.print("Enter Landlord ID to verify: ");
                     try {
                         int lid = Integer.parseInt(scanner.nextLine());
-                        Landlord l = landlordService.findById(lid);
-                        if (l != null) {
-                            admin.verifyLandlord(l);
-                        } else {
-                            System.out.println("Landlord not found.");
-                        }
+                        admin.verifyLandlord(lid, landlordService.getLandlords());
                     } catch (NumberFormatException e) {
                         System.out.println("Invalid ID.");
                     }
@@ -221,7 +218,9 @@ public class HomeSweetMain {
             System.out.println("2. Book a House");
             System.out.println("3. Pay Bill");
             System.out.println("4. View My Contracts");
-            System.out.println("5. Logout");
+            // Issue 2 fix: added option 5 to use houseService.search(double, double)
+            System.out.println("5. Search Houses by Price Range");
+            System.out.println("6. Logout");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
@@ -247,7 +246,7 @@ public class HomeSweetMain {
                         System.out.print("Enter end date (YYYY-MM-DD): ");
                         String end = scanner.nextLine();
 
-                        student.bookHouse(house);
+                        student.bookHouse(house, start, end);
 
                         // Contract handles contract creation, payment, and linking
                         Contract contract = Contract.createContract(student, house, start, end);
@@ -264,7 +263,7 @@ public class HomeSweetMain {
                     System.out.print("Enter amount to pay: ");
                     try {
                         double amount = Double.parseDouble(scanner.nextLine());
-                        System.out.print("Enter payment method (e.g. Cash, Card): ");
+                        System.out.print("Enter payment method (e.g. Cash, ABA, Bank Transfer): ");
                         String method = scanner.nextLine();
                         student.payBill(amount, method);
                     } catch (NumberFormatException e) {
@@ -274,7 +273,24 @@ public class HomeSweetMain {
                 case "4":
                     student.viewContracts();
                     break;
+                // Issue 2 fix: calls houseService.search(double, double) — the overloaded version
                 case "5":
+                    System.out.print("Enter minimum rent: $");
+                    try {
+                        double min = Double.parseDouble(scanner.nextLine());
+                        System.out.print("Enter maximum rent: $");
+                        double max = Double.parseDouble(scanner.nextLine());
+                        List<House> priceResults = houseService.search(min, max);
+                        if (priceResults.isEmpty()) {
+                            System.out.println("No houses found in that price range.");
+                        } else {
+                            for (House h : priceResults) h.displayInfo();
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid amount.");
+                    }
+                    break;
+                case "6":
                     System.out.println("Logging out...");
                     inMenu = false;
                     break;
@@ -300,7 +316,7 @@ public class HomeSweetMain {
 
             switch (choice) {
                 case "1":
-                    landlord.LandlordViewProperties();
+                    landlord.viewProperties();
                     break;
                 case "2":
                     System.out.print("Enter property address: ");
@@ -362,5 +378,69 @@ public class HomeSweetMain {
         a1.addLandlord(l1);
         a1.addHouse(h1);
         a1.addHouse(h2);
+
+        // Create additional houses and students for seeding contracts/payments
+        Student s2 = new Student("Bob Student", "student2", "bob@gmail.com", "9876543211", "studentpass@2", "11111111111111");
+        Student s3 = new Student("Alice Student", "student3", "alice@gmail.com", "9876543212", "studentpass@3", "22222222222222");
+        Student s4 = new Student("Charlie Student", "student4", "charlie@gmail.com", "9876543213", "studentpass@4", "33333333333333");
+        studentService.addStudent(s2);
+        studentService.addStudent(s3);
+        studentService.addStudent(s4);
+        a1.addStudent(s2);
+        a1.addStudent(s3);
+        a1.addStudent(s4);
+
+        House h3 = new House("789 Pine Rd", l1, true, "Phnom Penh", 450.00);
+        House h4 = new House("101 Maple Dr", l1, true, "Phnom Penh", 550.00);
+        l1.addProperty(h3);
+        l1.addProperty(h4);
+        houseService.addHouse(h3);
+        houseService.addHouse(h4);
+        a1.addHouse(h3);
+        a1.addHouse(h4);
+
+        // 1. Process standard rental using processPayment() (default)
+        Contract c1 = Contract.createContract(s1, h1, "2026-06-01", "2027-06-01");
+        s1.setContract(c1);
+        h1.markUnavailable();
+        Payment p1 = new Payment(c1, h1.getRentPrice(), PaymentStatus.PENDING.name());
+        p1.processPayment(); // default
+        paymentService.addPayment(p1);
+        contractService.addContract(c1);
+        a1.addContract(c1);
+        a1.addPayment(p1);
+
+        // 2. Process rental using processPayment("ABA")
+        Contract c2 = Contract.createContract(s2, h2, "2026-06-01", "2027-06-01");
+        s2.setContract(c2);
+        h2.markUnavailable();
+        Payment p2 = new Payment(c2, h2.getRentPrice(), PaymentStatus.PENDING.name());
+        p2.processPayment("ABA"); // student chose ABA
+        paymentService.addPayment(p2);
+        contractService.addContract(c2);
+        a1.addContract(c2);
+        a1.addPayment(p2);
+
+        // 3. Process rental using processPayment("Cash")
+        Contract c3 = Contract.createContract(s3, h3, "2026-06-01", "2027-06-01");
+        s3.setContract(c3);
+        h3.markUnavailable();
+        Payment p3 = new Payment(c3, h3.getRentPrice(), PaymentStatus.PENDING.name());
+        p3.processPayment("Cash"); // student paid cash
+        paymentService.addPayment(p3);
+        contractService.addContract(c3);
+        a1.addContract(c3);
+        a1.addPayment(p3);
+
+        // 4. Process rental using processPayment("Bank Transfer")
+        Contract c4 = Contract.createContract(s4, h4, "2026-06-01", "2027-06-01");
+        s4.setContract(c4);
+        h4.markUnavailable();
+        Payment p4 = new Payment(c4, h4.getRentPrice(), PaymentStatus.PENDING.name());
+        p4.processPayment("Bank Transfer");
+        paymentService.addPayment(p4);
+        contractService.addContract(c4);
+        a1.addContract(c4);
+        a1.addPayment(p4);
     }
 }

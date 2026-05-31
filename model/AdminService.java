@@ -10,6 +10,10 @@ public class AdminService {
         admins.add(a);
     }
 
+    public List<Admin> getAdmins() {
+        return admins;
+    }
+
     public void viewAdmins() {
         System.out.println("\n--- Admin List ---");
         for (Admin a : admins) {

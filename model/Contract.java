@@ -199,6 +199,24 @@ public class Contract implements Displayable, StatusManageable {
         }
     }
 
+    // Overloaded methods for calculateContractValue
+    public double calculateContractValue() { // returns the stored contract value
+        return contractValue;
+    }
+
+    public double calculateContractValue(int months) { // calculates cost for a given number of months
+        // Issue 3 fix: null check added — house can be null if contract was created without one
+        if (house == null) return 0;
+        return house.getRentPrice() * months;
+    }
+
+    public double calculateContractValue(int months, double discount) { // calculates cost with a discount percentage
+        // Issue 3 fix: null check added — house can be null if contract was created without one
+        if (house == null) return 0;
+        double total = house.getRentPrice() * months;
+        return total - (total * discount / 100);
+    }
+
     @Override
     public String toString() {
         return "Contract [ID=" + id + ", Student=" + (student != null ? student.getName() : "N/A")

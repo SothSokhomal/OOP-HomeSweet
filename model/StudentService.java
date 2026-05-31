@@ -9,6 +9,10 @@ public class StudentService {
         students.add(s);
     }
 
+    public List<Student> getStudents() {
+        return students;
+    }
+
     public void viewStudents() {
         System.out.println("\n--- Student List ---");
         for (Student s : students) {

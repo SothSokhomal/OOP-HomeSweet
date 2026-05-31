@@ -74,12 +74,19 @@ public class House implements Displayable, StatusManageable {
         this.landlord = landlord;
     }
 
+    //overloaded method for setRentPrice
     public void setRentPrice(double rentPrice) {
         if (rentPrice > 0) {
             this.rentPrice = rentPrice;
         } else {
             throw new IllegalArgumentException("Rent price must be positive: " + rentPrice);
         }
+    }
+
+    public void setRentPrice(double rentPrice, double discountPercent) {
+        double discounted = rentPrice - (rentPrice * discountPercent / 100);
+        setRentPrice(discounted);
+        System.out.println("Discounted rent applied: $" + discounted);
     }
 
     public void setCity(String city) {

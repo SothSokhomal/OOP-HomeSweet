@@ -9,6 +9,10 @@ public class LandlordService {
         landlords.add(l);
     }
 
+    public List<Landlord> getLandlords() {
+        return landlords;
+    }
+
     public void viewLandlords() {
         System.out.println("\n--- Landlord List ---");
         for (Landlord l : landlords) {
