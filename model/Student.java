@@ -24,15 +24,6 @@ public class Student extends Person {
         return nationalId;
     }
 
-    @Override
-    public void setPassword(String password) {
-        if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
-            super.setPassword(password);
-        } else {
-            System.out.println("Warning: Password must be at least 8 characters and contain a special character (!@#$%^&*()). Setting default password.");
-            super.setPassword("SecurityError123!");
-        }
-    }
 
     public void setContract(Contract contract) {
         if (contract != null && !contracts.contains(contract)) {
@@ -75,9 +66,6 @@ public class Student extends Person {
     public void performRole() {
         System.out.println("Student " + getName() + " is viewing houses and managing bills.");
     }
-
-    // OVERRIDING: Student requires stronger password than Person default
-    // (already overridden above in setPassword)
 
     // Overloaded methods for viewHouses
     public void viewHouses() { // view all houses

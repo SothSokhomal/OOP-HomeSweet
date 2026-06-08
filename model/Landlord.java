@@ -65,14 +65,6 @@ public class Landlord extends Person {
         }
     }
 
-    @Override
-    public void setPassword(String password) {
-        if (password != null && password.length() >= 6) {
-            super.setPassword(password);
-        } else {
-            System.out.println("Password must be at least 6 characters long.");
-        }
-    }
 
     public void addProperty(House house) {
         if (!houses.contains(house)) {

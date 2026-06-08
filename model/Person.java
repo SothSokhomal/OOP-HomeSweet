@@ -2,14 +2,14 @@ package model;
 
 import interfaces.Displayable;
 
-public class Person implements Displayable {
+public abstract class Person implements Displayable {
     private static int nextId = 1;
     private int id;
-    protected String name;
-    protected String username;
-    protected String email;
-    protected String phoneNumber;
-    protected String password;
+    private String name;
+    private String username;
+    private String email;
+    private String phoneNumber;
+    private String password;
 
     public Person(String name, String username, String email, String phoneNumber, String password) {
         this.id = nextId++;
@@ -78,7 +78,12 @@ public class Person implements Displayable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
+            this.password = password;
+        } else {
+            System.out.println("Warning: Password must be at least 8 characters and contain a special character (!@#$%^&*()). Setting default password.");
+            this.password = "SecurityError123!";
+        }
     }
 
     @Override
@@ -89,7 +94,5 @@ public class Person implements Displayable {
         System.out.println("Phone Number : " + phoneNumber);
     }
 
-    public void performRole() {
-        System.out.println(name + " is performing a general role.");
-    }
+    public abstract void performRole();
 }
