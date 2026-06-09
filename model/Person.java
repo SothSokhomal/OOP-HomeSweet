@@ -25,11 +25,10 @@ public abstract class Person implements Displayable {
     }
 
     public void setUsername(String username) {
-        if (username != null && !username.trim().isEmpty()) {
-            this.username = username.trim();
-        } else {
-            this.username = "UnknownUser";
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty.");
         }
+        this.username = username.trim();
     }
 
     public int getId() {
@@ -41,11 +40,10 @@ public abstract class Person implements Displayable {
     }
 
     public void setName(String name) {
-        if (name != null && !name.trim().isEmpty()) {
-            this.name = name.trim();
-        } else {
-            this.name = "Unknown Name";
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be null or empty.");
         }
+        this.name = name.trim();
     }
 
     public String getEmail() {
@@ -53,11 +51,10 @@ public abstract class Person implements Displayable {
     }
 
     public void setEmail(String email) {
-        if (email != null && email.contains("@") && email.endsWith(".com")) {
-            this.email = email;
-        } else {
-            this.email = "error@error.com";
+        if (email == null || !email.contains("@") || !email.endsWith(".com")) {
+            throw new IllegalArgumentException("Invalid email address: must contain '@' and end with '.com'.");
         }
+        this.email = email;
     }
 
     public String getPhoneNumber() {
@@ -65,12 +62,10 @@ public abstract class Person implements Displayable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber != null && phoneNumber.matches("\\d{10}")) {
-            this.phoneNumber = phoneNumber;
-        } else {
-            System.out.println("Please enter a valid 10-digit phone number");
-            this.phoneNumber = "0000000000";
+        if (phoneNumber == null || !phoneNumber.matches("\\d{10}")) {
+            throw new IllegalArgumentException("Invalid phone number: must be exactly 10 digits.");
         }
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {
@@ -78,12 +73,10 @@ public abstract class Person implements Displayable {
     }
 
     public void setPassword(String password) {
-        if (password != null && password.length() >= 8 && password.matches(".*[!@#$%^&*()].*")) {
-            this.password = password;
-        } else {
-            System.out.println("Warning: Password must be at least 8 characters and contain a special character (!@#$%^&*()). Setting default password.");
-            this.password = "SecurityError123!";
+        if (password == null || password.length() < 8 || !password.matches(".*[!@#$%^&*()].*")) {
+            throw new IllegalArgumentException("Invalid password: must be at least 8 characters and contain a special character (!@#$%^&*()).");
         }
+        this.password = password;
     }
 
     @Override

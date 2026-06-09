@@ -1,7 +1,8 @@
 package main;
 
-import java.util.Scanner;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import model.Admin;
 import model.AdminService;
@@ -30,6 +31,7 @@ public class HomeSweetMain {
 
     public static void main(String[] args) {
         seedData();
+        demonstratePolymorphism();
         boolean running = true;
 
         while (running) {
@@ -55,6 +57,47 @@ public class HomeSweetMain {
                     System.out.println("Invalid option. Please try again.");
             }
         }
+    }
+
+    // ==================== POLYMORPHISM DEMO ====================
+
+    /**
+     * Demonstrates runtime polymorphism:
+     * A List<Person> holds Admin, Landlord, and Student objects.
+     * Calling performRole() on each Person invokes the correct
+     * overridden implementation at runtime.
+     */
+    private static void demonstratePolymorphism() {
+        System.out.println("\n========================================");
+        System.out.println("   Polymorphism Demo - performRole()");
+        System.out.println("========================================");
+
+        // Create a List of Person (polymorphic reference type)
+        List<Person> persons = new ArrayList<>();
+
+        // Add an Admin object to the list
+        Admin admin = new Admin("Alice Admin", "aliceadmin", "alice@gmail.com", "0123456789", "alice@Pass1");
+        persons.add(admin);
+
+        // Add a Landlord object to the list
+        Landlord landlord = new Landlord("Bob Landlord", "boblandlord", "0987654321", "bob@gmail.com",
+                "Siem Reap", "bob@Pass123", "12345678901234", true, true);
+        persons.add(landlord);
+
+        // Add a Student object to the list
+        Student student = new Student("Charlie Student", "charliestudent", "charlie@gmail.com",
+                "0111222333", "charlie@Pass1", "98765432109876");
+        persons.add(student);
+
+        // For each Person in the list, call performRole()
+        // Each subclass's overridden performRole() is called at runtime
+        for (Person person : persons) {
+            System.out.println("[" + person.getClass().getSimpleName() + "] " + person.getName() + ":");
+            person.performRole();
+            System.out.println();
+        }
+
+        System.out.println("========================================\n");
     }
 
     // ==================== REGISTER ====================
