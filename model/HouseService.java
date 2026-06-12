@@ -32,12 +32,15 @@ public class HouseService {
         return results;
     }
 
-    public List<House> search(double minRent, double maxRent) { //search by price range
+    public List<House> search(double minPrice, double maxPrice) {
         List<House> results = new ArrayList<>();
+
         for (House h : houses) {
-            if (h.getRentPrice() >= minRent && h.getRentPrice() <= maxRent)
+            if (h.getRentPrice() >= minPrice && h.getRentPrice() <= maxPrice) {
                 results.add(h);
+            }
         }
+
         return results;
     }
 

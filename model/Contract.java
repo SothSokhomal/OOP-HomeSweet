@@ -184,20 +184,6 @@ public class Contract implements Displayable, StatusManageable {
                 house);
     }
 
-    public static void processRental(Student student, House house, Contract contract, java.util.List<Payment> payments) {
-        if (house.isAvailable()) {
-            student.setContract(contract);
-            house.markUnavailable();
-
-            Payment payment = new Payment(contract, house.getRentPrice(), PaymentStatus.PENDING.name());
-            payment.processPayment(); // Process payment immediately — activates contract
-            payments.add(payment);
-
-            System.out.println("Rental Processed for: " + student.getName() + ", at house: " + house.getAddress());
-        } else {
-            System.out.println("House is NOT available!");
-        }
-    }
 
     // Overloaded methods for calculateContractValue
     public double calculateContractValue() { // returns the stored contract value

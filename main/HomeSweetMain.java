@@ -19,6 +19,9 @@ import model.PaymentStatus;
 import model.Person;
 import model.Student;
 import model.StudentService;
+import model.RentalService;
+import interfaces.Displayable;
+import interfaces.StatusManageable;
 
 public class HomeSweetMain {
     private static Scanner scanner = new Scanner(System.in);
@@ -28,6 +31,7 @@ public class HomeSweetMain {
     private static HouseService houseService = new HouseService();
     private static ContractService contractService = new ContractService();
     private static PaymentService paymentService = new PaymentService();
+    private static RentalService rentalService = new RentalService();
 
     public static void main(String[] args) {
         seedData();
@@ -38,7 +42,8 @@ public class HomeSweetMain {
             System.out.println("\n=== Welcome to HomeSweet ===");
             System.out.println("1. Register");
             System.out.println("2. Login");
-            System.out.println("3. Exit");
+            System.out.println("3. Run Week 8 Polymorphism Tests");
+            System.out.println("4. Exit");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
@@ -50,6 +55,9 @@ public class HomeSweetMain {
                     loginMenu();
                     break;
                 case "3":
+                    testPolymorphism();
+                    break;
+                case "4":
                     System.out.println("Thank you for using HomeSweet!");
                     running = false;
                     break;
@@ -291,9 +299,9 @@ public class HomeSweetMain {
 
                         student.bookHouse(house, start, end);
 
-                        // Contract handles contract creation, payment, and linking
+                        // RentalService handles contract creation, payment, and linking
                         Contract contract = Contract.createContract(student, house, start, end);
-                        Contract.processRental(student, house, contract, paymentService.getPayments());
+                        rentalService.processRental(student, house, contract, paymentService.getPayments());
 
                         // Save contract to contractService
                         contractService.addContract(contract);
@@ -442,48 +450,87 @@ public class HomeSweetMain {
         a1.addHouse(h3);
         a1.addHouse(h4);
 
-        // 1. Process standard rental using processPayment() (default)
+        // 1. Process standard rental using RentalService
         Contract c1 = Contract.createContract(s1, h1, "2026-06-01", "2027-06-01");
-        s1.setContract(c1);
-        h1.markUnavailable();
-        Payment p1 = new Payment(c1, h1.getRentPrice(), PaymentStatus.PENDING.name());
-        p1.processPayment(); // default
-        paymentService.addPayment(p1);
+        rentalService.processRental(s1, h1, c1, paymentService.getPayments());
         contractService.addContract(c1);
         a1.addContract(c1);
-        a1.addPayment(p1);
+        a1.addPayment(paymentService.getPayments().get(paymentService.getPayments().size() - 1));
 
         // 2. Process rental using processPayment("ABA")
         Contract c2 = Contract.createContract(s2, h2, "2026-06-01", "2027-06-01");
-        s2.setContract(c2);
-        h2.markUnavailable();
-        Payment p2 = new Payment(c2, h2.getRentPrice(), PaymentStatus.PENDING.name());
-        p2.processPayment("ABA"); // student chose ABA
-        paymentService.addPayment(p2);
+        rentalService.processRental(s2, h2, c2, paymentService.getPayments(), "ABA");
         contractService.addContract(c2);
         a1.addContract(c2);
-        a1.addPayment(p2);
+        a1.addPayment(paymentService.getPayments().get(paymentService.getPayments().size() - 1));
 
         // 3. Process rental using processPayment("Cash")
         Contract c3 = Contract.createContract(s3, h3, "2026-06-01", "2027-06-01");
-        s3.setContract(c3);
-        h3.markUnavailable();
-        Payment p3 = new Payment(c3, h3.getRentPrice(), PaymentStatus.PENDING.name());
-        p3.processPayment("Cash"); // student paid cash
-        paymentService.addPayment(p3);
+        rentalService.processRental(s3, h3, c3, paymentService.getPayments(), "Cash");
         contractService.addContract(c3);
         a1.addContract(c3);
-        a1.addPayment(p3);
+        a1.addPayment(paymentService.getPayments().get(paymentService.getPayments().size() - 1));
 
         // 4. Process rental using processPayment("Bank Transfer")
         Contract c4 = Contract.createContract(s4, h4, "2026-06-01", "2027-06-01");
-        s4.setContract(c4);
-        h4.markUnavailable();
-        Payment p4 = new Payment(c4, h4.getRentPrice(), PaymentStatus.PENDING.name());
-        p4.processPayment("Bank Transfer");
-        paymentService.addPayment(p4);
+        rentalService.processRental(s4, h4, c4, paymentService.getPayments(), "Bank Transfer");
         contractService.addContract(c4);
         a1.addContract(c4);
-        a1.addPayment(p4);
+        a1.addPayment(paymentService.getPayments().get(paymentService.getPayments().size() - 1));
+    }
+
+    private static void testPolymorphism() {
+        System.out.println("\n========== Week 8 Polymorphism Test ==========");
+
+        // Task 1: Subclass/Superclass Polymorphism with Person
+        System.out.println("\n--- Task 1: Subclass/Superclass Polymorphism (Person) ---");
+        java.util.ArrayList<Person> users = new java.util.ArrayList<>();
+        Student testStudent = new Student("Dara", "dara01", "dara@gmail.com", "0123456789", "Pass@123", "12345678901234");
+        Landlord testLandlord = new Landlord("Sokha", "sokha01", "0112233445", "sokha@gmail.com", "Phnom Penh", "landpass", "12345678901234", true, true);
+        Admin testAdmin = new Admin("Admin", "admin01", "admin@gmail.com", "0987654321", "adminpass");
+
+        users.add(testStudent);
+        users.add(testLandlord);
+        users.add(testAdmin);
+
+        for (Person user : users) {
+            user.displayInfo();
+            user.performRole();
+            System.out.println("----------------------------------------------");
+        }
+
+        // Task 2: Interface Polymorphism with Displayable
+        System.out.println("\n--- Task 2: Interface Polymorphism (Displayable) ---");
+        java.util.ArrayList<Displayable> displayItems = new java.util.ArrayList<>();
+
+        // Create some sample house, contract, and payment for demonstration
+        House testHouse = new House("789 Test Rd", testLandlord, true, "Siem Reap", 400.0);
+        Contract testContract = Contract.createContract(testStudent, testHouse, "2026-07-01", "2027-07-01");
+        Payment testPayment = new Payment(testContract, 400.0, "PENDING");
+
+        displayItems.add(testStudent);
+        displayItems.add(testLandlord);
+        displayItems.add(testAdmin);
+        displayItems.add(testHouse);
+        displayItems.add(testContract);
+        displayItems.add(testPayment);
+
+        for (Displayable item : displayItems) {
+            item.displayInfo();
+            System.out.println("----------------------------------------------");
+        }
+
+        // Task 3: Interface Polymorphism with StatusManageable
+        System.out.println("\n--- Task 3: Interface Polymorphism (StatusManageable) ---");
+        java.util.ArrayList<StatusManageable> statusItems = new java.util.ArrayList<>();
+
+        statusItems.add(testHouse);
+        statusItems.add(testContract);
+        statusItems.add(testPayment);
+
+        for (StatusManageable item : statusItems) {
+            item.displayStatus();
+            System.out.println("----------------------------------------------");
+        }
     }
 }
