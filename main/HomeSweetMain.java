@@ -410,7 +410,7 @@ public class HomeSweetMain {
         adminService.addAdmin(a1);
 
         Landlord l1 = new Landlord("Elizabeth Landlord", "landlord1", "1234567890", "landlord@gmail.com",
-                "Phnom Penh", "landlordpass123", "14327632891230", true, true);
+                "Phnom Penh", "landlordpass123!", "14327632891230", true, true);
         landlordService.addLandlord(l1);
 
         Student s1 = new Student("Jane Student", "student1", "student@gmail.com", "9876543210",
@@ -486,8 +486,8 @@ public class HomeSweetMain {
         System.out.println("\n--- Task 1: Subclass/Superclass Polymorphism (Person) ---");
         java.util.ArrayList<Person> users = new java.util.ArrayList<>();
         Student testStudent = new Student("Dara", "dara01", "dara@gmail.com", "0123456789", "Pass@123", "12345678901234");
-        Landlord testLandlord = new Landlord("Sokha", "sokha01", "0112233445", "sokha@gmail.com", "Phnom Penh", "landpass", "12345678901234", true, true);
-        Admin testAdmin = new Admin("Admin", "admin01", "admin@gmail.com", "0987654321", "adminpass");
+        Landlord testLandlord = new Landlord("Sokha", "sokha01", "0112233445", "sokha@gmail.com", "Phnom Penh", "landpass@123", "14327632891234", true, true);
+        Admin testAdmin = new Admin("Admin", "admin01", "admin@gmail.com", "0987654321", "adminpass@123");
 
         users.add(testStudent);
         users.add(testLandlord);
