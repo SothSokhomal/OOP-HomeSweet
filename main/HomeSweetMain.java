@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import interfaces.HouseFilter;
 
 import model.Admin;
 import model.AdminService;
@@ -15,7 +16,6 @@ import model.Landlord;
 import model.LandlordService;
 import model.Payment;
 import model.PaymentService;
-import model.PaymentStatus;
 import model.Person;
 import model.Student;
 import model.StudentService;
@@ -36,6 +36,7 @@ public class HomeSweetMain {
     public static void main(String[] args) {
         seedData();
         demonstratePolymorphism();
+        demonstrateDesignChoice();   // Point 9 — runs on startup
         boolean running = true;
 
         while (running) {
@@ -265,19 +266,27 @@ public class HomeSweetMain {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Student Menu ===");
-            System.out.println("1. View Available Houses");
+            System.out.println("1. View All Houses");
             System.out.println("2. Book a House");
             System.out.println("3. Pay Bill");
             System.out.println("4. View My Contracts");
-            // Issue 2 fix: added option 5 to use houseService.search(double, double)
             System.out.println("5. Search Houses by Price Range");
-            System.out.println("6. Logout");
+            System.out.println("6. Advanced House Search");
+            System.out.println("7. Logout");
             System.out.print("Choose an option: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
                 case "1":
-                    houseService.viewHouses();
+                    // Lambda filter: only houses that are still available
+                    HouseFilter availableOnly = house -> house.isAvailable();
+                    List<House> availableHouses = houseService.filterHouses(availableOnly);
+                    System.out.println("\n--- Available Houses ---");
+                    if (availableHouses.isEmpty()) {
+                        System.out.println("No houses are currently available.");
+                    } else {
+                        availableHouses.forEach(House::displayInfo);
+                    }
                     break;
                 case "2":
                     System.out.print("Enter House ID to book: ");
@@ -342,6 +351,9 @@ public class HomeSweetMain {
                     }
                     break;
                 case "6":
+                    advancedHouseSearch();
+                    break;
+                case "7":
                     System.out.println("Logging out...");
                     inMenu = false;
                     break;
@@ -349,6 +361,145 @@ public class HomeSweetMain {
                     System.out.println("Invalid option.");
             }
         }
+    }
+
+    // ==================== ADVANCED HOUSE SEARCH ====================
+
+    private static void advancedHouseSearch() {
+        System.out.println("\n=== Advanced House Search ===");
+        System.out.println("1. Show only available houses");
+        System.out.println("2. Search by city");
+        System.out.println("3. Search within my budget");
+        System.out.println("4. Available in my city, within my budget  (smart search)");
+        System.out.print("Choose a filter: ");
+        String pick = scanner.nextLine();
+
+        List<House> results;
+
+        switch (pick) {
+            case "1":
+                results = houseService.getAvailableHouses();
+                printFilterResults(results, "Available Houses");
+                break;
+
+            case "2":
+                System.out.print("Enter city (e.g. Phnom Penh, Siem Reap): ");
+                String city = scanner.nextLine();
+                results = houseService.getHousesByCity(city);
+                printFilterResults(results, "Houses in " + city);
+                break;
+
+            case "3":
+                System.out.print("Enter your monthly budget: $");
+                try {
+                    double budget = Double.parseDouble(scanner.nextLine());
+                    results = houseService.getHousesWithinBudget(budget);
+                    printFilterResults(results, "Houses at or under $" + budget);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid amount.");
+                }
+                break;
+
+            case "4":
+                System.out.print("Enter your city: ");
+                String targetCity = scanner.nextLine();
+                System.out.print("Enter your monthly budget: $");
+                try {
+                    double maxRent = Double.parseDouble(scanner.nextLine());
+
+                    // ── Point 4: Anonymous class form ─────────────────────────────
+                    HouseFilter smartAnon = new HouseFilter() {
+                        @Override
+                        public boolean matches(House house) {
+                            return house.isAvailable()
+                                && house.getCity().equalsIgnoreCase(targetCity)
+                                && house.getRentPrice() <= maxRent;
+                        }
+                    };
+
+                    // ── Point 5 & 6: Lambda form — variable name 'house', one line ─
+                    HouseFilter smartLambda = house -> house.isAvailable()
+                            && house.getCity().equalsIgnoreCase(targetCity)
+                            && house.getRentPrice() <= maxRent;
+
+                    // ── Point 8: Factory method form — built from user input ────────
+                    // buildSmartFilter() acts as the "Search button click handler":
+                    // it takes the values the user typed and returns a ready HouseFilter.
+                    HouseFilter smartFactory = HouseService.buildSmartFilter(targetCity, maxRent);
+
+                    // ── Point 7: All three produce identical output ────────────────
+                    System.out.println("\n[Anonymous class result]");
+                    printFilterResults(houseService.filterHouses(smartAnon),
+                            "Available in " + targetCity + " at or under $" + maxRent);
+
+                    System.out.println("\n[Lambda result]");
+                    printFilterResults(houseService.filterHouses(smartLambda),
+                            "Available in " + targetCity + " at or under $" + maxRent);
+
+                    System.out.println("\n[Factory method result (Point 8 — buildSmartFilter)]");
+                    printFilterResults(houseService.filterHouses(smartFactory),
+                            "Available in " + targetCity + " at or under $" + maxRent);
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid amount.");
+                }
+                break;
+
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+
+    /** Prints a labelled list of houses, or a not-found message. */
+    private static void printFilterResults(List<House> results, String label) {
+        System.out.println("\n--- " + label + " ---");
+        if (results.isEmpty()) {
+            System.out.println("No houses matched your search.");
+        } else {
+            results.forEach(House::displayInfo);
+        }
+    }
+
+    // ==================== POINT 9: DESIGN CHOICE DEMO ====================
+
+    /**
+     * Point 9 — runs at startup and shows WHY HouseFilter suits a lambda
+     * while House must stay a full class, by actually creating both and
+     * printing their observable characteristics.
+     */
+    private static void demonstrateDesignChoice() {
+        System.out.println("\n========================================");
+        System.out.println("   Point 9: Lambda vs Full Class Design");
+        System.out.println("========================================");
+
+        // HouseFilter: one rule, no fields, no state — defined as a lambda
+        HouseFilter availableAndCheap = house -> house.isAvailable()
+                                               && house.getRentPrice() <= 300;
+        System.out.println("[HouseFilter as lambda]");
+        System.out.println("  Rule: available AND rent <= $300");
+        System.out.println("  Implementation: single line, no class file needed");
+        System.out.println();
+
+        // House: multiple fields, validation, two interfaces — must be a full class
+        Landlord demoLandlord = new Landlord(
+                "Demo Owner", "demoowner", "0100000000", "demo@gmail.com",
+                "Demo Address", "demopass@1", "10000000000000", true, true);
+        House demoHouse = new House("42 Lambda St", demoLandlord, true, "Phnom Penh", 250.0);
+
+        System.out.println("[House as full class]");
+        System.out.println("  Fields   : id, address, city, rentPrice, landlord, isAvailable");
+        System.out.println("  Validation: rentPrice must be > 0 (throws IllegalArgumentException)");
+        System.out.println("  Interface : Displayable  -> displayInfo()");
+        demoHouse.displayInfo();
+        System.out.println("  Interface : StatusManageable  -> displayStatus()");
+        demoHouse.displayStatus();
+        System.out.println();
+
+        // Prove the lambda works on the House object
+        System.out.println("[HouseFilter lambda applied to the House above]");
+        System.out.println("  matches(demoHouse) = " + availableAndCheap.matches(demoHouse));
+
+        System.out.println("========================================\n");
     }
 
     // ==================== LANDLORD MENU ====================
