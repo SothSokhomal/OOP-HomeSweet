@@ -203,6 +203,7 @@ public class Admin extends Person implements Searchable {
     @Override
     public void performRole() {
         System.out.println("Admin " + getName() + " is managing the entire HomeSweet system.");
+        main.HomeSweetMain.adminMenu(this);
     }
 
     // Overloaded methods for manageRecord

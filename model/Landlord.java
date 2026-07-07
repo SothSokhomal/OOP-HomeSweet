@@ -118,6 +118,7 @@ public class Landlord extends Person {
     @Override
     public void performRole() {
         System.out.println("Landlord " + getName() + " is adding properties and generating reports.");
+        main.HomeSweetMain.landlordMenu(this);
     }
 
     public void addProperty(String address, String city, double price) {

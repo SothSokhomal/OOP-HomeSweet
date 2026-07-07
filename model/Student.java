@@ -65,6 +65,7 @@ public class Student extends Person {
     @Override
     public void performRole() {
         System.out.println("Student " + getName() + " is viewing houses and managing bills.");
+        main.HomeSweetMain.studentMenu(this);
     }
 
     // Overloaded methods for viewHouses

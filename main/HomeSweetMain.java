@@ -102,7 +102,8 @@ public class HomeSweetMain {
         // Each subclass's overridden performRole() is called at runtime
         for (Person person : persons) {
             System.out.println("[" + person.getClass().getSimpleName() + "] " + person.getName() + ":");
-            person.performRole();
+            // person.performRole(); // Removed because performRole is now interactive
+            System.out.println("Role logic is now interactive via menus.");
             System.out.println();
         }
 
@@ -171,13 +172,6 @@ public class HomeSweetMain {
         if (user != null) {
             System.out.println("Login successful! Welcome, " + user.getName());
             user.performRole();
-            if (user instanceof Admin) {
-                adminMenu((Admin) user);
-            } else if (user instanceof Student) {
-                studentMenu((Student) user);
-            } else if (user instanceof Landlord) {
-                landlordMenu((Landlord) user);
-            }
         } else {
             System.out.println("Invalid username or password.");
         }
@@ -185,7 +179,7 @@ public class HomeSweetMain {
 
     // ==================== ADMIN MENU ====================
 
-    private static void adminMenu(Admin admin) {
+    public static void adminMenu(Admin admin) {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Admin Menu ===");
@@ -262,7 +256,7 @@ public class HomeSweetMain {
 
     // ==================== STUDENT MENU ====================
 
-    private static void studentMenu(Student student) {
+    public static void studentMenu(Student student) {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Student Menu ===");
@@ -504,7 +498,7 @@ public class HomeSweetMain {
 
     // ==================== LANDLORD MENU ====================
 
-    private static void landlordMenu(Landlord landlord) {
+    public static void landlordMenu(Landlord landlord) {
         boolean inMenu = true;
         while (inMenu) {
             System.out.println("\n=== Landlord Menu ===");
@@ -646,7 +640,7 @@ public class HomeSweetMain {
 
         for (Person user : users) {
             user.displayInfo();
-            user.performRole();
+            // user.performRole(); // Removed because performRole is now interactive
             System.out.println("----------------------------------------------");
         }
 
